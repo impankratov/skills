@@ -6,7 +6,7 @@ disable-model-invocation: true
 
 # git-rebase-with-ledger
 
-Rebase with a **ledger**: one untracked numbered `N. CONFLICT-*.md` per conflicted file, then project-doc verify, then commit all fallout. Rebase mechanics live in `git-rebase` — this skill is the overlay.
+Rebase with a **ledger**: one untracked numbered `N. CONFLICT-*.md` per conflicted file, then project-doc verify, then commit all fallout. Rebase mechanics live in the external [`git-rebase` skill](https://github.com/pedronauck/skills/blob/main/skills/mine/git-rebase/SKILL.md) from [pedronauck/skills](https://github.com/pedronauck/skills) — this skill is the overlay.
 
 ## Trigger
 
