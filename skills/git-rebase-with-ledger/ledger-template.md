@@ -3,10 +3,13 @@
 Create **one file per conflicted path** at the **repository root**:
 
 ```text
-CONFLICT-<slug>.md
+N. CONFLICT-<slug>.md
 ```
 
-`<slug>` = short kebab path hint (e.g. `auth`, `api-client`, `user-settings`).
+- `N` = encounter ordinal for this rebase run (`1`, `2`, `3`, …). Increment for every new ledger, including post-rebase ones.
+- `<slug>` = short kebab path hint (e.g. `auth`, `api-client`, `user-settings`).
+
+Example: `1. CONFLICT-auth.md`, `2. CONFLICT-api-client.md`.
 
 ## Required sections
 
@@ -80,9 +83,10 @@ Conflict markers gone; path staged or deleted as intended; any follow-up risk fo
 
 ## Rules
 
-- **HARD RULE — never stage or commit ledger files.** `CONFLICT-*.md` stay untracked. Violation = protocol failure.
+- **HARD RULE — never stage or commit ledger files.** `N. CONFLICT-*.md` stay untracked. Violation = protocol failure.
+- **Enumerated filenames** — always `N. CONFLICT-<slug>.md`, never bare `CONFLICT-<slug>.md`.
 - **Full paths only** — no `...` inside path strings. Rename / move conflicts list **both** old and new full paths under **Paths**.
 - **Code required** — **Key code** section must have real snippets of the key differences; prose alone is not enough.
 - Prefer **union** when sides add independent behavior; document any pure ours/theirs choice under **Rationale**.
 - For **modify/delete**: say which side won; put the surviving full path under **Paths** (and the deleted full path as old/new as appropriate).
-- Post-rebase compile/test fixes that are not a `<<<<<<` stop may use `CONFLICT-post-rebase-<slug>.md` with the same sections (Incoming = “N/A — latent after merge”).
+- Post-rebase compile/test fixes that are not a `<<<<<<` stop may use `N. CONFLICT-post-rebase-<slug>.md` with the same sections (Incoming = “N/A — latent after merge”), continuing the `N` sequence.
