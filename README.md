@@ -12,7 +12,7 @@ skills/
 
 ### ledger-rebase
 
-Rebase overlay: untracked **ledger** per conflicted path (full paths + key code), project-doc verify, fallout commit, optional MR thread. Ledgers stay local for your review.
+Rebase overlay: untracked **ledger** per conflicted path, project-doc verify, fallout commit, optional MR thread.
 
 Invoke: **`ledger-rebase`**, **`ledger rebase`**, **`rebase-with-ledger`**, **`rebase with ledger`**.
 

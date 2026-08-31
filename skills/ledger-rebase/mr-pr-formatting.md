@@ -15,7 +15,7 @@ The note body is **rendered Markdown**, not a dump of files.
 
 3. **Separate conflicts** — put a horizontal rule `---` between the intro/summary and the first ledger, and between every pair of ledger sections.
 
-4. **Hardest-conflicts summary is an unnumbered list** — use `-` bullets (not a second `1.`/`2.` list counter), hardest → lowest. Each bullet **starts with the same label** as the body section (`N.` + bold `CONFLICT-<slug>`, no backticks, no `.md`), then path/prose. Numbers must match body sections / filenames (never invent a second numbering). Related ledgers may share one bullet:
+4. **Hardest-conflicts summary is an unnumbered list** — use `-` bullets (not a second `1.`/`2.` list counter), hardest → lowest. Each bullet **starts with the same label** as the body section (`N.` + bold `CONFLICT-<slug>`, no backticks, no `.md`), then path/prose. Numbers match body sections / filenames. Related ledgers may share one bullet:
 
     ```markdown
     - 1. **CONFLICT-a** — **`<path>` (<type>)** — … **Resolution:** …
@@ -24,7 +24,7 @@ The note body is **rendered Markdown**, not a dump of files.
 
     Body section titles stay plain (`## 1. CONFLICT-a`); only the hardest list bolds the slug.
 
-5. **Inline only** — content is already in the note; skip attachment disclaimers and local-file meta ("ledger files below", "never committed", "attached").
+5. **Inline only** — paste ledger bodies into the note; skip attachment lines and local-file meta.
 
 6. **Format fixes** — if the user corrects note formatting, **edit the same note/thread** (forge update API) when possible; one thread unless they ask for another.
 

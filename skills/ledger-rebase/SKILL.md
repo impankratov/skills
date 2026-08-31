@@ -1,12 +1,12 @@
 ---
 name: ledger-rebase
-description: Rebase overlay — conflict ledgers, project-doc verify, fallout commit, optional MR review thread.
+description: Ledger rebase overlay — conflict ledgers, project-doc verify, fallout commit, optional MR thread.
 disable-model-invocation: true
 ---
 
 # ledger-rebase
 
-Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/mine/git-rebase/SKILL.md) (pedronauck/skills): one untracked **ledger** per conflicted path, project-doc verify, commit fallout. Activate `git-rebase` when available (Step 0); workflow stands without it.
+Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/mine/git-rebase/SKILL.md) (pedronauck/skills). Activate `git-rebase` when available (Step 0).
 
 ## Invoke
 
@@ -29,7 +29,7 @@ Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/
 
 Read and follow `git-rebase` for backup, fetch, strategy, conflict pauses, continue/abort.
 
-**Completion**: backup exists; rebase onto agreed target started or in progress.
+**Completion**: backup branch exists; agreed target ref named; rebase started (`git status` shows rebase in progress) or user explicitly skipped `git-rebase` and rebase already running.
 
 ### Step 1 — Ledger + resolve each stop
 
@@ -52,7 +52,7 @@ Fix rebase-caused failures. Conflict-adjacent fixes → continue `N` sequence (`
 
 ### Step 3 — Commit fallout
 
-Commit all remaining tracked changes from resolution/verify. Use `git-commit` skill or project commit docs. Ledgers stay untracked — unstage them before commit if needed.
+Commit all remaining tracked changes from resolution/verify. Use `git-commit` skill or project commit docs. Unstage any ledger paths before commit (Non-negotiables).
 
 **Completion**: clean tracked tree; only untracked `N. CONFLICT-*.md` (plus unrelated pre-existing untracked).
 
@@ -64,10 +64,10 @@ Report rebase + verify green; list untracked `N. CONFLICT-*.md` paths for human 
 
 ### Step 5 — MR/PR thread? (branch)
 
-Ask whether to open a new MR/PR discussion thread. If yes: inline all ledgers, hardest-conflicts summary first — [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed.
+Ask whether to open a new MR/PR discussion thread. If yes — [mr-pr-formatting.md](mr-pr-formatting.md) (inline all ledgers; hardest-conflicts summary first). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed.
 
-**Completion**: user answered; if yes, thread URL; ledgers still untracked locally.
+**Completion**: user answered; if yes, thread URL reported.
 
 ## Done
 
-Steps 0–4 complete; Step 5 answered (thread posted or declined).
+Steps 0–4 complete; Step 5 answered.
