@@ -1,6 +1,6 @@
 # Ledger template
 
-One untracked **ledger** per conflicted path at the **repository root**. Naming and untracked rules: **Non-negotiables** in `SKILL.md`.
+One untracked **ledger** per conflicted path at the **repository root**. Write the ledger **before** staging the resolved file; run the **Ledger gate** in `SKILL.md` before `git rebase --continue`. Naming and untracked rules: **Non-negotiables** in `SKILL.md`.
 
 Example filenames: `1. CONFLICT-auth.md`, `2. CONFLICT-api-client.md`.
 

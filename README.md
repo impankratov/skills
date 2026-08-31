@@ -12,7 +12,7 @@ skills/
 
 ### ledger-rebase
 
-Rebase overlay: untracked **ledger** per conflicted path, project-doc verify, fallout commit, optional MR thread.
+Rebase overlay: **ledger-first** — one untracked ledger per conflicted path (gate before continue), project-doc verify, fallout commit, optional MR thread.
 
 Invoke: **`ledger-rebase`**, **`ledger rebase`**, **`rebase-with-ledger`**, **`rebase with ledger`**.
 
