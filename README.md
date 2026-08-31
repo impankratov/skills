@@ -10,13 +10,19 @@ skills/
 
 ## Skills
 
-### git-rebase-with-ledger
+### ledger-rebase
 
-Automates git rebase conflict resolution with ledger files for every conflicted path. Each ledger documents the conflict with full paths, code snippets, and a summary — so you (or a reviewer) can understand what changed on each side without digging through diffs. After resolving, it verifies the result against project docs, commits any fallout, and hands the ledgers to you for review (never committed to the branch).
+Rebase overlay: untracked **ledger** per conflicted path (full paths + key code), project-doc verify, fallout commit, optional MR thread. Ledgers stay local for your review.
+
+Invoke: **`ledger-rebase`**, **`ledger rebase`**, **`rebase-with-ledger`**, **`rebase with ledger`**.
+
+### rebase-with-ledger
+
+Alias for `ledger-rebase` (same workflow; keeps the old hyphenated name installable).
 
 ## Install
 
 ```bash
-npx skills add impankratov/skills -g -s git-rebase-with-ledger
+npx skills add impankratov/skills -g -s ledger-rebase -s rebase-with-ledger
 ```
 

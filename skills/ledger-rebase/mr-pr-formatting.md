@@ -1,8 +1,8 @@
-# MR/PR Note Formatting Rules (HARD)
+# MR/PR note formatting
 
-The note body is **rendered Markdown**, not a dump of files. Follow all of these:
+The note body is **rendered Markdown**, not a dump of files.
 
-1. **Inline as real Markdown** — paste each ledger's body into the note as Markdown. Language fences stay **only** inside **Key code** snippets, as in the ledger template. Do not wrap the whole note or any ledger section in an outer ` ```markdown ` / ` ```md ` fence.
+1. **Inline as Markdown** — paste each ledger's body into the note. Language fences live **only** inside **Key code** snippets (as in the ledger template). The note and each ledger section are plain Markdown — no outer ` ```markdown ` / ` ```md ` wrapper.
 
 2. **Enumerate body sections by encounter order** — one numbered section per ledger file, same `N` as the filename. Section title is **plain text** (no backticks): strip `.md` from the filename, and **omit** the conflicted path (path lives under **Paths**):
 
@@ -24,9 +24,9 @@ The note body is **rendered Markdown**, not a dump of files. Follow all of these
 
     Body section titles stay plain (`## 1. CONFLICT-a`); only the hardest list bolds the slug.
 
-5. **No attachment / local-file disclaimers** — do not write lines like "ledger files below are local-only", "never committed", or "attached". Nothing is attached; content is already inlined.
+5. **Inline only** — content is already in the note; skip attachment disclaimers and local-file meta ("ledger files below", "never committed", "attached").
 
-6. **Format fixes** — if the user corrects note formatting, **edit the same note/thread** (forge update API) when possible; do not spam a second thread unless they ask.
+6. **Format fixes** — if the user corrects note formatting, **edit the same note/thread** (forge update API) when possible; one thread unless they ask for another.
 
 Minimal skeleton:
 

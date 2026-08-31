@@ -11,6 +11,8 @@ N. CONFLICT-<slug>.md
 
 Example: `1. CONFLICT-auth.md`, `2. CONFLICT-api-client.md`.
 
+Non-negotiables (untracked ledgers, naming, full paths, key code, union): **SKILL.md**.
+
 ## Required sections
 
 Every ledger file MUST include these headings, filled in (no empty stubs):
@@ -66,7 +68,7 @@ Show the decisive differences as fenced snippets (not the whole file / not the w
 // what is in the tree after resolution
 ```
 
-Word-only ledgers without these snippets are incomplete — fix before continuing the rebase.
+Incomplete without **Key code** snippets — finish the ledger before continuing the rebase.
 
 ## Resolution
 
@@ -81,12 +83,7 @@ Why that resolution preserves both features / matches architecture / is safe.
 Conflict markers gone; path staged or deleted as intended; any follow-up risk for reviewers.
 ````
 
-## Rules
+## Template notes
 
-- **HARD RULE — never stage or commit ledger files.** `N. CONFLICT-*.md` stay untracked. Violation = protocol failure.
-- **Enumerated filenames** — always `N. CONFLICT-<slug>.md`, never bare `CONFLICT-<slug>.md`.
-- **Full paths only** — no `...` inside path strings. Rename / move conflicts list **both** old and new full paths under **Paths**.
-- **Code required** — **Key code** section must have real snippets of the key differences; prose alone is not enough.
-- Prefer **union** when sides add independent behavior; document any pure ours/theirs choice under **Rationale**.
-- For **modify/delete**: say which side won; put the surviving full path under **Paths** (and the deleted full path as old/new as appropriate).
-- Post-rebase compile/test fixes that are not a `<<<<<<` stop may use `N. CONFLICT-post-rebase-<slug>.md` with the same sections (Incoming = “N/A — latent after merge”), continuing the `N` sequence.
+- **Modify/delete** — document which side won; **Paths** lists surviving and deleted full paths.
+- **Post-rebase latent fixes** — `N. CONFLICT-post-rebase-<slug>.md`, same sections; Incoming = `N/A — latent after merge`; continue the `N` sequence.
