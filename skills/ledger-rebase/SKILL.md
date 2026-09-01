@@ -80,13 +80,9 @@ Repeat the whole stop cycle until rebase finishes.
 
 **Completion**: rebase finished; ledger gate passes for the full run; every conflicted path has exactly one complete untracked ledger; zero ledger files staged; you can list every `N. CONFLICT-*.md` path.
 
-### Step 2 — Verify (project docs)
+### Step 2 — Verify
 
-Read docs that mandate verify (e.g. `AGENTS.md`, `CONTRIBUTING.md`, `docs/`). Run **every** command they specify.
-
-Fix rebase-caused failures. Conflict-adjacent fixes → ledger-first (`N. CONFLICT-post-rebase-<slug>.md`); same ledger rules and gate before moving on.
-
-**Completion**: every doc-mandated verify command exits 0 (flaky e2e ok if final run green).
+Read project markdown (`AGENTS.md`, `CONTRIBUTING.md`, `README.md`, `docs/`, other workflow `*.md`) for verify commands; cross-check format, lint, typecheck, build, unit tests, integration tests, e2e tests, other. Run every command collected (default order when docs silent: format → lint → typecheck → build → unit → integration → e2e → other). Fix before Step 3; conflict-adjacent fixes ledger-first (`N. CONFLICT-post-rebase-<slug>.md`). **Completion**: all collected commands green.
 
 ### Step 3 — Commit fallout
 
