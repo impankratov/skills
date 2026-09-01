@@ -54,7 +54,15 @@ ls -1 | grep -E '^[0-9]+\. CONFLICT-.*\.md$' || true
 
 Read and follow `git-rebase` for backup, fetch, strategy, conflict pauses, continue/abort.
 
-**Completion**: backup branch exists; agreed target ref named; rebase started (`git status` shows rebase in progress) or user explicitly skipped `git-rebase` and rebase already running.
+**Target ref** — name the branch you rebase onto before starting:
+
+1. User, handoff, or open MR/PR for this branch
+2. `git branch -vv`; `git log --oneline --graph --decorate -20`; divergence against plausible candidates (`origin/<candidate>..HEAD`, `HEAD..origin/<candidate>`)
+3. Still unclear → ask user
+
+Use `origin/<target>` (or the named ref) for fetch, rebase, and verify `--base` flags.
+
+**Completion**: backup branch exists; target ref named; rebase started (`git status` shows rebase in progress) or user explicitly skipped `git-rebase` and rebase already running.
 
 ### Step 1 — Ledger-first resolve (each stop)
 
