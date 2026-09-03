@@ -22,9 +22,16 @@ Rebase overlay: **ledger-first** — one untracked ledger per conflicted path (g
 
 Invoke: **`ledger-rebase`**, **`ledger rebase`**, **`rebase-with-ledger`**, **`rebase with ledger`**.
 
+### fix-review-threads
+
+MR/PR review loop: **thread-by-thread** — unresolved only; Fix (commit→push→reply), Easy question (reply), Hard parked at end; forge via `glab` / `gh`.
+
+Invoke: **`fix-review-threads`**, **`fix review threads`**, **`MR/PR review reply`**, **`reply with commit`**.
+
 ## Install
 
 ```bash
 npx skills add impankratov/skills -g -s extract-issue
 npx skills add impankratov/skills -g -s ledger-rebase
+npx skills add impankratov/skills -g -s fix-review-threads
 ```
