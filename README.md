@@ -1,5 +1,7 @@
 # skills
 
+[![skills.sh](https://skills.sh/b/impankratov/skills)](https://skills.sh/impankratov/skills)
+
 Collection of personal agent skills for web and general development tasks.
 
 ```text
