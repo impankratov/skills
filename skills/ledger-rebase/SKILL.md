@@ -1,6 +1,6 @@
 ---
 name: ledger-rebase
-description: Ledger-first rebase overlay — mandatory conflict ledgers, project-doc verify, fallout commit, optional MR thread.
+description: Ledger-first rebase overlay — mandatory conflict ledgers, project-doc verify, fallout commit, optional MR threads (put each conflict in separate thread).
 disable-model-invocation: true
 ---
 
@@ -23,6 +23,7 @@ Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/
 - **Union bias** — keep both sides' independent additions; ours/theirs only when ledger **Rationale** says union failed.
 - **Serial resolve** — finish editing a path, then `git add` it.
 - **Push** only when the user explicitly asks.
+- **put each conflict in separate thread** — when posting ledgers to the MR/PR: one discussion thread per `N. CONFLICT-*.md`. No combined dump.
 
 ## Ledger gate
 
@@ -104,11 +105,11 @@ Report rebase + verify green. **List every** untracked `N. CONFLICT-*.md` path (
 
 **Completion**: user has the full ledger path list.
 
-### Step 5 — MR/PR thread? (branch)
+### Step 5 — MR/PR threads? (branch)
 
-Ask whether to open a new MR/PR discussion thread. If yes — [mr-pr-formatting.md](mr-pr-formatting.md) (inline all ledgers; hardest-conflicts summary first). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed.
+Ask whether to post ledgers to the MR/PR. If yes — put each conflict in separate thread. Format each thread with [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report every thread URL.
 
-**Completion**: user answered; if yes, thread URL reported.
+**Completion**: user answered; if yes, one thread URL per ledger.
 
 ## Done
 
