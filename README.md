@@ -30,10 +30,24 @@ MR/PR review loop: **thread-by-thread** — unresolved only; Fix (commit→push�
 
 Invoke: **`fix-review-threads`**, **`fix review threads`**, **`MR/PR review reply`**, **`reply with commit`**.
 
+### git-commit
+
+**Create** clean conventional commits — analyze, split, stage, message — following the project's commit guidelines (fallback: conventional commits with scope).
+
+Invoke: **`commit`**, **`commit changes`**, **`commit and MR`**.
+
+### git-pr
+
+**Create** merge requests / pull requests per project conventions — read the project's MR docs in full, push the branch, create via the project's tooling (`glab` / `gh`).
+
+Invoke: **`create MR`**, **`create PR`**, **`commit and MR`**.
+
 ## Install
 
 ```bash
 npx skills add impankratov/skills -g -s extract-issue
 npx skills add impankratov/skills -g -s ledger-rebase
 npx skills add impankratov/skills -g -s fix-review-threads
+npx skills add impankratov/skills -g -s git-commit
+npx skills add impankratov/skills -g -s git-pr
 ```
