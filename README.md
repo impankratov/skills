@@ -42,6 +42,12 @@ Invoke: **`commit`**, **`commit changes`**, **`commit and MR`**.
 
 Invoke: **`create MR`**, **`create PR`**, **`commit and MR`**.
 
+### simplify-component-inputs
+
+**Check** a component's inputs where a whole object is passed and propose the minimum surface — only the props the component consumes.
+
+Invoke: **`simplify component inputs`**, **`simplify inputs`**, **`input slimming`**, **`pass only required props`**.
+
 ## Install
 
 ```bash
@@ -50,4 +56,5 @@ npx skills add impankratov/skills -g -s ledger-rebase
 npx skills add impankratov/skills -g -s fix-review-threads
 npx skills add impankratov/skills -g -s git-commit
 npx skills add impankratov/skills -g -s git-pr
+npx skills add impankratov/skills -g -s simplify-component-inputs
 ```
