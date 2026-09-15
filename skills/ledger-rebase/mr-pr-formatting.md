@@ -1,6 +1,19 @@
-# MR/PR note formatting
+# MR/PR ledger-thread formatting
 
-put each conflict in separate thread — one new discussion per `N. CONFLICT-*.md`, encounter order (`N`). Do not combine ledgers.
+**ledger-thread** — one new discussion per `N. CONFLICT-*.md`, encounter order (`N`). One thread carries one ledger's full body.
+
+## Scope (what belongs in an MR comment)
+
+| In scope | Out of scope |
+|----------|--------------|
+| Full body of one `N. CONFLICT-*.md` (formatted below) | Rebase summary, changelog, verify results, commit SHAs |
+| | "Work done" or agent status notes |
+| | Combined dump of multiple ledgers |
+| | Links to ledgers without inlining the body |
+
+Step 5 **yes** means ledger-threads only — not a substitute for Step 4 chat handoff.
+
+## Format each thread
 
 The note body is **rendered Markdown**, not a dump of files.
 
@@ -28,3 +41,7 @@ Minimal skeleton (**one note = one ledger**):
 - **Path:** `<full/repo-relative/path>`
 …
 ```
+
+## Post order
+
+Post threads in ledger order (`1`, then `2`, …). Separate API call per thread — never batch ledgers into one note.

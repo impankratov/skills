@@ -20,7 +20,7 @@ Invoke: **`extract-issue`**, **`extract issue`**, **`dump this issue`**, **`dump
 
 ### ledger-rebase
 
-Rebase overlay: **ledger-first** — one untracked ledger per conflicted path (gate before continue), project-doc verify, fallout commit, optional MR thread.
+Rebase overlay: **ledger-first** — gate before continue, verify, fallout commit; **ask-gate** before MR comments; optional **ledger-thread** (one full ledger per discussion).
 
 Invoke: **`ledger-rebase`**, **`ledger rebase`**, **`rebase-with-ledger`**, **`rebase with ledger`**.
 

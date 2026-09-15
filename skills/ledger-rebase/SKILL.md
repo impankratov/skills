@@ -1,6 +1,6 @@
 ---
 name: ledger-rebase
-description: Ledger-first rebase overlay — mandatory conflict ledgers, project-doc verify, fallout commit, optional MR threads (put each conflict in separate thread).
+description: Ledger-first rebase — conflict ledgers on disk, verify, fallout commit; ask-gate before any MR comment; ledger-thread only (one full ledger per discussion).
 disable-model-invocation: true
 ---
 
@@ -23,7 +23,8 @@ Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/
 - **Union bias** — keep both sides' independent additions; ours/theirs only when ledger **Rationale** says union failed.
 - **Serial resolve** — finish editing a path, then `git add` it.
 - **Push** only when the user explicitly asks.
-- **put each conflict in separate thread** — when posting ledgers to the MR/PR: one discussion thread per `N. CONFLICT-*.md`. No combined dump.
+- **ask-gate** — zero MR/PR comments until Step 5 user says yes. `git push --force-with-lease` is not a comment; it satisfies "update MR" by refreshing the diff only.
+- **ledger-thread** — when Step 5 is yes: one discussion thread per `N. CONFLICT-*.md`; body = that ledger's full content per [mr-pr-formatting.md](mr-pr-formatting.md). One thread, one ledger.
 
 ## Ledger gate
 
@@ -101,16 +102,25 @@ Commit all remaining tracked changes from resolution/verify. Use `git-commit` sk
 
 ### Step 4 — Hand off ledgers
 
-Report rebase + verify green. **List every** untracked `N. CONFLICT-*.md` path (full repo-relative paths from ledgers). If conflicts occurred and the list is empty, Step 1 is incomplete — write ledgers first.
+Report rebase + verify green **in chat only**. List every untracked `N. CONFLICT-*.md` path (full repo-relative paths from ledgers). If conflicts occurred and the list is empty, Step 1 is incomplete — write ledgers first.
 
-**Completion**: user has the full ledger path list.
+**Completion**: user has the full ledger path list in chat; no MR/PR comments posted.
 
-### Step 5 — MR/PR threads? (branch)
+### Step 5 — ask-gate → ledger-thread?
 
-Ask whether to post ledgers to the MR/PR. If yes — put each conflict in separate thread. Format each thread with [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report every thread URL.
+**Stop. Ask the user** (exact intent, one question):
 
-**Completion**: user answered; if yes, one thread URL per ledger.
+> Post conflict ledgers to the MR/PR as separate discussion threads (one full ledger per thread)?
+
+Wait for yes or no. **ask-gate**: until they answer, run no `glab mr note`, `gh pr comment`, or other MR/PR discussion API.
+
+| Answer | Action |
+|--------|--------|
+| **No** | Skill done. MR refresh = push only (if already authorized). |
+| **Yes** | Post **ledger-thread** for each `N. CONFLICT-*.md` in order — read [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report every thread URL. |
+
+**Completion**: user answered. If yes: one thread URL per ledger; thread count equals ledger count.
 
 ## Done
 
-Steps 0–4 complete (including ledger gate + full ledger path list); Step 5 answered.
+Steps 0–4 complete (including ledger gate + full ledger path list in chat); Step 5 answered; ask-gate respected.
