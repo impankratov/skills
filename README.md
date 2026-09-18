@@ -2,54 +2,42 @@
 
 [![skills.sh](https://skills.sh/b/impankratov/skills)](https://skills.sh/impankratov/skills)
 
-Personal collection of agent skills for web and general development tasks.
+Personal agent skills for web and general development tasks.
 
 ## Skills
 
 ### ledger-rebase
 
-Rebase with a conflict ledger — record each conflict's resolution, verify the result, commit fallout separately, and ask before commenting on the MR.
-
-Invoke: **`ledger-rebase`**, **`ledger rebase`**, **`rebase-with-ledger`**, **`rebase with ledger`**.
+Rebases die on conflicts: files half-merged, decisions lost, comments posted too early. A conflict ledger records every resolution, verifies the result, keeps fallout in a separate commit, and makes you ask before commenting on an MR.
 
 Install: `npx skills add impankratov/skills -g -s ledger-rebase`
 
 ### extract-issue
 
-Pull an issue out of the tracker into a local markdown report, complete with its attachments and linked wiki pages.
-
-Invoke: **`extract-issue`**, **`extract issue`**, **`dump this issue`**, **`dump <id>`**.
+A Jira or YouTrack ticket is useless in an agent session until it's pulled into a local markdown report with its attachments and linked wiki pages. This does exactly that.
 
 Install: `npx skills add impankratov/skills -g -s extract-issue`
 
 ### fix-review-threads
 
-Work an MR/PR review one thread at a time — skip resolved threads, fix the rest by committing and pushing, and park the ones that need a human.
-
-Invoke: **`fix-review-threads`**, **`fix review threads`**, **`MR/PR review reply`**, **`reply with commit`**.
+Twenty comments on an MR bury the open questions. Go one thread at a time: fix what you can with a commit, reply to the easy ones, park the rest for a human.
 
 Install: `npx skills add impankratov/skills -g -s fix-review-threads`
 
 ### git-commit
 
-Create git commits the way the project expects: analyze the changes, split them into logical commits, and follow the project's commit conventions.
-
-Invoke: **`commit`**, **`commit changes`**, **`commit and MR`**.
+Your commit history is your changelog. This writes it the way the project expects: changes analyzed, split into logical commits, messages following the project's conventions.
 
 Install: `npx skills add impankratov/skills -g -s git-commit`
 
 ### git-pr
 
-Create a merge request or pull request the way the project expects: read its MR/PR docs, push the branch, and create it with the project's tooling.
-
-Invoke: **`create MR`**, **`create PR`**, **`commit and MR`**.
+Every project wants its MRs a certain way. This reads the project's rules, pushes the branch, and creates the MR on the right target with the right fields.
 
 Install: `npx skills add impankratov/skills -g -s git-pr`
 
 ### simplify-component-inputs
 
-Find places that hand a whole object to a component input, trace which properties the component really uses, and propose passing only those.
-
-Invoke: **`simplify component inputs`**, **`simplify inputs`**, **`input slimming`**, **`pass only required props`**.
+A component that accepts a whole object is coupled to its caller. This finds those call sites, traces which properties the component really uses, and shows you the minimum input surface it needs.
 
 Install: `npx skills add impankratov/skills -g -s simplify-component-inputs`
