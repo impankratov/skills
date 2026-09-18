@@ -8,7 +8,7 @@ Personal agent skills for web and general development tasks.
 
 ### ledger-rebase
 
-Rebases die on conflicts: files half-merged, decisions lost, comments posted too early. A conflict ledger records every resolution, verifies the result, keeps fallout in a separate commit, and makes you ask before commenting on an MR.
+Rebases die on conflicts: files half-merged, decisions lost, comments posted too early. A conflict ledger records every resolution, verifies the result, keeps fallout in a separate commit, makes you ask before commenting on an MR, and posts a summary thread flagging which conflicts are worth verifying.
 
 Install: `npx skills add impankratov/skills -g -s ledger-rebase`
 

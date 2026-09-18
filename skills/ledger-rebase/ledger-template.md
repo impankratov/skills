@@ -67,12 +67,15 @@ What landed in the tree (be concrete: kept both X and Y; took HEAD module shape;
 
 Why that resolution preserves both features / matches architecture / is safe.
 
-## Verification notes
+## Worth verifying
 
-Conflict markers gone; path staged or deleted as intended; any follow-up risk for reviewers.
+`yes — <one line: what a reviewer must re-check>` or `no`
+
+<!-- yes: the resolution was AUTHORED (hand-blended regions, reconciled interfaces, callsites cleaned, deletion with follow-up edits) or this ledger is a post-rebase latent fix; the why-line names what to re-check. no: verbatim — a pure pick of one side, or a clean union of both sides' independent additions, zero edits. Why-line required when yes, blank/omitted when no. -->
 ````
 
 ## Template notes
 
 - **Modify/delete** — document which side won; **Paths** lists surviving and deleted full paths.
 - **Post-rebase latent fixes** — `N. CONFLICT-post-rebase-<slug>.md`, same sections; Incoming = `N/A — latent after merge`; continue the `N` sequence.
+- **Rebase summary drives the thread** — `N. LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors each ledger's **Worth verifying**: `yes` ledgers are flagged in the summary thread. Posting format: [mr-pr-formatting.md](mr-pr-formatting.md).

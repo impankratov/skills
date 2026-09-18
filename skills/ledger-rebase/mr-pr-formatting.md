@@ -1,17 +1,17 @@
 # MR/PR ledger-thread formatting
 
-**ledger-thread** — one new discussion per `N. CONFLICT-*.md`, encounter order (`N`). One thread carries one ledger's full body.
+**ledger-thread** — one new discussion per `N. CONFLICT-*.md`, encounter order (`N`). One thread carries one ledger's full body. After every ledger thread: one **summary thread** — the rebase index, its ledger references turned into links.
 
 ## Scope (what belongs in an MR comment)
 
 | In scope | Out of scope |
 |----------|--------------|
-| Full body of one `N. CONFLICT-*.md` (formatted below) | Rebase summary, changelog, verify results, commit SHAs |
-| | "Work done" or agent status notes |
+| Full body of one `N. CONFLICT-*.md` (formatted below) | Rebase changelog, verify results, commit SHAs |
+| **Summary thread** — `N. LEDGER-REBASE-SUMMARY.md`: a numbered list — one item per ledger, the ledger's `N` as the list marker (`N. CONFLICT-<slug>` + `— worth verifying` when flagged), each slug a link to that conflict's thread | "Work done" or agent status notes |
 | | Combined dump of multiple ledgers |
-| | Links to ledgers without inlining the body |
+| | A conflict thread linking its own ledger without inlining the body |
 
-Step 5 **yes** means ledger-threads only — not a substitute for Step 4 chat handoff.
+Step 5 **yes** means ledger threads + summary thread only — not a substitute for Step 4 chat handoff.
 
 ## Format each thread
 
@@ -42,6 +42,20 @@ Minimal skeleton (**one note = one ledger**):
 …
 ```
 
+## Summary thread
+
+Posted **last**, after every ledger thread — its links need the ledger thread URLs to exist first.
+
+Body = the on-disk `N. LEDGER-REBASE-SUMMARY.md` with the **single change**: each item's slug becomes a link — `N. [CONFLICT-<slug>](<that conflict's thread url>)`. List markers and `— worth verifying` marks stay verbatim. No paths, no why-lines, no ledger bodies — the linked thread already carries all of it.
+
+Minimal skeleton:
+
+```markdown
+1. [CONFLICT-auth](https://…/discussions/…)
+2. [CONFLICT-api-client](https://…/discussions/…) — worth verifying
+3. [CONFLICT-widgets](https://…/discussions/…)
+```
+
 ## Post order
 
-Post threads in ledger order (`1`, then `2`, …). Separate API call per thread — never batch ledgers into one note.
+Post ledger threads in encounter order (`1`, then `2`, …), then the **summary thread last**. Separate API call per thread — never batch ledgers into one note. The summary thread is the only note spanning multiple ledgers, and it carries links and flags, never bodies.
