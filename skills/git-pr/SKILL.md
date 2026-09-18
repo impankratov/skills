@@ -43,11 +43,10 @@ Push the branch and create the PR using the project's standard tooling.
 
 **Completion**: PR created.
 
-### Step 4 — Verify and open
+### Step 4 — Verify and report
 
 1. Confirm target branch, settings, and assignee are correct
 2. Capture the PR URL from CLI output — use that URL only, never one you constructed
 3. Output the URL as a bare line with no markdown wrapping
-4. Open it in the browser
 
-**Completion**: URL reported and browser opened.
+**Completion**: URL reported.
