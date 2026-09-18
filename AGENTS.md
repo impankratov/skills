@@ -42,11 +42,7 @@ failure.
 
 ## Conventions
 
-- Prefer **user-invoked** (`disable-model-invocation: true`) unless the
-  skill must auto-fire from ambient context; match sibling skills in
-  this repo.
-- User-invoked `description`: short human one-liner. Put invoke aliases
-  in the body under `## Invoke`.
+- Decide the invocation model (user-invoked / model-invoked) per new skill.
 - No private / customer data in examples (fake SHAs, scopes, tickets).
 - Keep `SKILL.md` lean; disclose long reference into sibling `.md` files
   with clear context pointers.

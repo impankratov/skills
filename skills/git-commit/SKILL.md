@@ -10,17 +10,13 @@ description: >
 
 Create small, readable commits named according to project conventions.
 
-## Invocation
-
-**HARD RULE — No exceptions.** Load this skill FIRST, before staging or committing anything. Violation = protocol failure.
-
 ## Execution
 
 ### Step 1 — Read project commit guidelines (HARD GATE)
 
 You MUST find and read the project's commit documentation before proceeding. If none exists, use conventional commits with scope.
 
-**Completion**: Commit format, scope rules, and any special conventions identified.
+**Completion**: Commit format, scope rules, and any special conventions pinned — or the conventional-commits fallback chosen when no project commit doc exists.
 
 ### Step 2 — Analyze changes
 

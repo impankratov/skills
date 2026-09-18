@@ -10,10 +10,6 @@ description: >
 
 Create a pull request following project conventions.
 
-## Invocation
-
-**HARD RULE — No exceptions.** Load this skill FIRST, before pushing or creating anything. Violation = protocol failure.
-
 ## Execution
 
 ### Step 1 — Read project guidelines (HARD GATE)
