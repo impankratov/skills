@@ -11,7 +11,7 @@ Ledger title = filename (`N. CONFLICT-<slug>.md`) — **no `# Conflict:` heading
 | Kind | What it is | Worth verifying |
 |------|------------|-----------------|
 | **Verbatim** | pure pick of one side, or clean union of both sides' independent additions, zero edits | `✅ no` |
-| **Authored** | hand-blended regions, reconciled interfaces, callsites cleaned, deletion with follow-up edits, post-rebase latent fix | `⚠️ yes — <one line what to re-check>` |
+| **Authored** | hand-blended regions, reconciled interfaces, callsites cleaned, deletion with follow-up edits, post-rebase latent fix | `⚠️ yes — <why-line>` |
 
 Every ledger opens with a bold path line (no heading) and MUST include these blocks, filled (no empty stubs):
 
@@ -68,7 +68,7 @@ Kept the rename; kept HEAD's exportWidget; took Incoming's store-bound list.
 // what is in the tree after resolution
 ```
 
-**Worth verifying:** ⚠️ yes — <one line: what a reviewer must re-check>
+**Worth verifying:** ⚠️ yes — <why-line>
 ````
 
 ### Template notes
@@ -78,4 +78,4 @@ Kept the rename; kept HEAD's exportWidget; took Incoming's store-bound list.
 - **Verbatim** — no `### Landed`; the resolution text (and any rationale) folds into the winning block's description, then closes with **Worth verifying:** `✅ no`.
 - **Modify/delete** — document which side won; the opening path line lists surviving and deleted full paths, one bold line each.
 - **Post-rebase latent fixes** — `N. CONFLICT-post-rebase-<slug>.md`, same blocks; authored → full form; continue the `N` sequence.
-- **Rebase summary drives the thread** — `N. LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors each ledger's **Worth verifying**: `⚠️ yes` ledgers carry a `⚠️` in the summary thread. Posting format: [mr-pr-formatting.md](mr-pr-formatting.md).
+- **Rebase summary drives the thread** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors each ledger's **Worth verifying**: `⚠️ yes` ledgers carry a `⚠️` in the summary thread per [summary-template.md](summary-template.md). Posting format: [mr-pr-formatting.md](mr-pr-formatting.md).

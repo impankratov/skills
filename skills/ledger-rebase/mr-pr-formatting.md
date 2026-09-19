@@ -7,7 +7,7 @@
 | In scope | Out of scope |
 |----------|--------------|
 | Full body of one `N. CONFLICT-*.md` (formatted below) | Rebase changelog, verify results, commit SHAs |
-| **Summary thread** — `N. LEDGER-REBASE-SUMMARY.md`: a numbered list — one item per ledger, the ledger's `N` as the list marker (`N. CONFLICT-<slug>` + `⚠️` when that ledger's **Worth verifying** flags `⚠️ yes`), each slug a link to that conflict's thread | "Work done" or agent status notes |
+| **Summary thread** — `LEDGER-REBASE-SUMMARY.md`: a numbered list — one item per ledger, the ledger's `N` as the list marker (`N. CONFLICT-<slug>` + `⚠️` when that ledger's **Worth verifying** flags `⚠️ yes`), each slug a link to that conflict's thread | "Work done" or agent status notes |
 | | Combined dump of multiple ledgers |
 | | A conflict thread linking its own ledger without inlining the body |
 
@@ -49,11 +49,19 @@ Minimal skeleton (**one note = one ledger**):
 
 Posted **last**, after every ledger thread — its links need the ledger thread URLs to exist first.
 
-Body = the on-disk `N. LEDGER-REBASE-SUMMARY.md` with the **single change**: each item's slug becomes a link — `N. [CONFLICT-<slug>](<that conflict's thread url>)`. List markers and `⚠️` marks stay verbatim. No paths, no why-lines, no ledger bodies — the linked thread already carries all of it.
+**Title** — bold `**Ledger-rebase summary**`, plain on its own line:
+
+```markdown
+**Ledger-rebase summary**
+```
+
+Body = the on-disk `LEDGER-REBASE-SUMMARY.md` with two changes: prepend the bold title, and each item's slug becomes a link — `N. [CONFLICT-<slug>](<that conflict's thread url>)`. List markers and `⚠️` marks stay verbatim. No paths, no why-lines, no ledger bodies — the linked thread already carries all of it.
 
 Minimal skeleton:
 
 ```markdown
+**Ledger-rebase summary**
+
 1. [CONFLICT-auth](https://…/discussions/…)
 2. [CONFLICT-api-client](https://…/discussions/…) ⚠️
 3. [CONFLICT-widgets](https://…/discussions/…)
