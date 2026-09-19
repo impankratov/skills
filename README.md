@@ -6,9 +6,9 @@
 
 Personal agent skills for web and general development tasks.
 
-## Skills
+### Git
 
-### ledger-rebase
+#### [ledger-rebase](skills/ledger-rebase/SKILL.md)
 
 > _Previously known as `git-rebase-with-ledger`; that name still works and redirects to this one._
 
@@ -16,31 +16,33 @@ Rebases die on conflicts: files half-merged, decisions lost, comments posted too
 
 Install: `npx skills add impankratov/skills -g -s ledger-rebase`
 
-### extract-issue
-
-A Jira or YouTrack ticket is useless in an agent session until it's pulled into a local markdown report with its attachments and linked wiki pages. This does exactly that.
-
-Install: `npx skills add impankratov/skills -g -s extract-issue`
-
-### fix-review-threads
+#### [fix-review-threads](skills/fix-review-threads/SKILL.md)
 
 Twenty comments on an MR bury the open questions. Go one thread at a time: fix what you can with a commit, reply to the easy ones, park the rest for a human.
 
 Install: `npx skills add impankratov/skills -g -s fix-review-threads`
 
-### git-commit
+#### [git-commit](skills/git-commit/SKILL.md)
 
 Your commit history is your changelog. This writes it the way the project expects: changes analyzed, split into logical commits, messages following the project's conventions.
 
 Install: `npx skills add impankratov/skills -g -s git-commit`
 
-### git-pr
+#### [git-pr](skills/git-pr/SKILL.md)
 
 Every project wants its MRs a certain way. This reads the project's rules, pushes the branch, and creates the MR on the right target with the right fields.
 
 Install: `npx skills add impankratov/skills -g -s git-pr`
 
-### simplify-component-inputs
+### Other
+
+#### [extract-issue](skills/extract-issue/SKILL.md)
+
+A Jira or YouTrack ticket is useless in an agent session until it's pulled into a local markdown report with its attachments and linked wiki pages. This does exactly that.
+
+Install: `npx skills add impankratov/skills -g -s extract-issue`
+
+#### [simplify-component-inputs](skills/simplify-component-inputs/SKILL.md)
 
 A component that accepts a whole object is coupled to its caller. This finds those call sites, traces which properties the component really uses, and shows you the minimum input surface it needs.
 
