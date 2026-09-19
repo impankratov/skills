@@ -1,6 +1,8 @@
 # skills
 
 [![skills.sh](https://skills.sh/b/impankratov/skills)](https://skills.sh/impankratov/skills)
+[![License](https://img.shields.io/github/license/impankratov/skills)](LICENSE)
+[![GitHub last commit](https://img.shields.io/github/last-commit/impankratov/skills)](https://github.com/impankratov/skills/commits/main)
 
 Personal agent skills for web and general development tasks.
 
