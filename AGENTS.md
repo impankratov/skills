@@ -3,15 +3,10 @@
 Personal collection of agent skills (`skills/<name>/SKILL.md`). Install via
 `npx skills` — see [README.md](README.md).
 
-## First command — `npx skills experimental_install`
+## First command — install skills if missing
 
-This repo manages project skills with `npx skills`: `skills-lock.json`
-(tracked) is the source of truth for what is installed; installed skills land
-in `.agents/` (gitignored). Run the command above before any work so skills
-are present.
-
-Add a skill: `npx skills add <owner>/<repo> -s <name>` (updates the lock
-file). Update all: `npx skills update`.
+Before any work: read `skills-lock.json`; if any skill listed there lacks
+`.agents/skills/<name>/SKILL.md`, run `npx skills experimental_install`.
 
 ## HARD RULE — `writing-for-agents` on every skill change
 
