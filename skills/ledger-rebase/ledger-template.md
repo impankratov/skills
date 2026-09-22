@@ -2,31 +2,23 @@
 
 One untracked **ledger** per conflicted path at the **repository root**. Write the ledger **before** staging the resolved file; run the **Ledger gate** in `SKILL.md` before `git rebase --continue`. Naming and untracked rules: **Non-negotiables** in `SKILL.md`.
 
-Example filenames: `1. CONFLICT-auth.md`, `2. CONFLICT-api-client.md`.
+Example filenames: `1.CONFLICT-auth.md`, `2.CONFLICT-api-client.md`.
 
 ### Required blocks
 
-Ledger title = filename (`N. CONFLICT-<slug>.md`) — **no `# Conflict:` heading**. Same blocks in every ledger; density follows the resolution kind:
+Ledger title = filename (`N.CONFLICT-<slug>.md`) — **no `# Conflict:` heading**. Same blocks in every ledger; density follows the resolution kind:
 
 | Kind | What it is | Worth verifying |
 |------|------------|-----------------|
 | **Verbatim** | pure pick of one side, or clean union of both sides' independent additions, zero edits | `✅ no` |
 | **Authored** | hand-blended regions, reconciled interfaces, callsites cleaned, deletion with follow-up edits, post-rebase latent fix | `⚠️ yes — <why-line>` |
 
-Every ledger opens with a bold path line (no heading) and MUST include these blocks, filled (no empty stubs):
+Every ledger opens with a bold header list and MUST include these blocks, filled (no empty stubs):
 
 ````markdown
-**`src/features/widgets/widget-list.ts`**
-
-<!-- bold full repo-relative path; no abbreviated segments. Modify/delete: list surviving and deleted paths, one bold line each. -->
-
-Reviewer must be able to open the path as written (copy-paste into the editor).
-
-### Context
-
-- **Onto:** origin/main
-  <!-- the rebase target — same for every ledger in a run; stated once per ledger here -->
-- **Applying:** 3f2c9a1 — "add widget export" (content)
+<!-- full repo-relative path; no abbreviated segments — a reviewer must be able to open each path as written (copy-paste into the editor). Modify/delete: list surviving and deleted paths, one `**file:**` line each. -->
+- **file:** `src/features/widgets/widget-list.ts`
+- **applying:** 3f2c9a1 — "add widget export" (content)
   <!-- sha as BARE text, no backticks — GitLab links a bare sha, not a code span. Conflict type: content | modify/delete | add/add | rename+content | … -->
 
 ### Code
@@ -53,10 +45,11 @@ What it wanted — one line.
 ```
 
 <!-- Block-header filenames are OPTIONAL — shown only on a rename, where BOTH sides list them
-     (HEAD = old path, Incoming = new path) so the file's history survives next to the bold
-     path line. No rename → omit the ` — path` suffix entirely. -->
+     (HEAD = old path, Incoming = new path) so the file's history survives next to the **file:** header.
+     No rename → omit the ` — path` suffix entirely. -->
 
-### Landed (authored, when the tree differs from a pure pick)
+<!-- heading reads exactly `### Landed` (authored-only condition: Template notes) -->
+### Landed
 
 The resolution — concrete, one or two lines; then the snippet. Optional **Rationale:** line as its own paragraph:
 
@@ -76,6 +69,7 @@ Kept the rename; kept HEAD's exportWidget; took Incoming's store-bound list.
 - **Rationale / Worth verifying are inline bold lines, never `###` headings.**
 - **Worth verifying** closes every ledger, always present: `⚠️ yes — <why-line>` or `✅ no`.
 - **Verbatim** — no `### Landed`; the resolution text (and any rationale) folds into the winning block's description, then closes with **Worth verifying:** `✅ no`.
-- **Modify/delete** — document which side won; the opening path line lists surviving and deleted full paths, one bold line each.
-- **Post-rebase latent fixes** — `N. CONFLICT-post-rebase-<slug>.md`, same blocks; authored → full form; continue the `N` sequence.
+- **Onto** lives once in the summary's **Onto:** line, not per ledger — the rebase target is the same for the whole run.
+- **Modify/delete** — document which side won; the **file:** lines list surviving and deleted full paths.
+- **Post-rebase latent fixes** — `N.CONFLICT-post-rebase-<slug>.md`, same blocks; authored → full form; continue the `N` sequence.
 - **Rebase summary drives the thread** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors each ledger's **Worth verifying**: `⚠️ yes` ledgers carry a `⚠️` in the summary thread per [summary-template.md](summary-template.md). Posting format: [mr-pr-formatting.md](mr-pr-formatting.md).

@@ -15,17 +15,18 @@ Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/
 ## Non-negotiables
 
 - **Ledger-first** — for each conflicted path: complete ledger on disk **before** `git add` on that path; **ledger gate** (below) **before** every `git rebase --continue`.
-- **Ledgers stay untracked** — `N. CONFLICT-*.md` at repo root; hand off to human for review; stage and commit only resolved source paths.
-- **Ledger naming** — `N. CONFLICT-<slug>.md`; `N` = encounter ordinal across the whole run (including post-rebase ledgers). Summary is assembled last and is **not** numbered: `LEDGER-REBASE-SUMMARY.md` — not a conflicted path; excluded from per-path counts.
+- **Ledgers stay untracked** — `N.CONFLICT-*.md` at repo root; hand off to human for review; stage and commit only resolved source paths.
+- **Ledger naming** — `N.CONFLICT-<slug>.md`; `N` = encounter ordinal across the whole run (including post-rebase ledgers). Summary is assembled last and is **not** numbered: `LEDGER-REBASE-SUMMARY.md` — not a conflicted path; excluded from per-path counts.
 - **One ledger per conflicted path** (content or modify/delete), not per hunk.
 - **Full paths** in every ledger — complete repo-relative paths; renames list both old and new.
 - **Code in every ledger** — fenced snippets of decisive hunks (HEAD / Incoming / Landed); prose-only ledgers are incomplete.
 - **Union bias** — keep both sides' independent additions; ours/theirs only when the resolution's **Rationale** line says union failed.
 - **Serial resolve** — finish editing a path, then `git add` it.
 - **Worth verifying** — every ledger's closing **Worth verifying** line is `⚠️ yes` (carries a why-line) or `✅ no`; the summary thread flags `⚠️ yes` conflicts.
+- **Onto once** — the rebase target is written once as **Onto:** in the summary, never per ledger.
 - **Push** only when the user explicitly asks — the Step 5 **yes** is that ask; push **before** any thread.
 - **ask-gate** — zero MR/PR comments until Step 5 user says yes. `git push --force-with-lease` is not a comment — it refreshes the diff.
-- **ledger-thread** — when Step 5 is yes, **after** the push: one discussion thread per `N. CONFLICT-*.md`; body = that ledger's full content per [mr-pr-formatting.md](mr-pr-formatting.md). One thread, one ledger — plus the **summary thread** posted last (index only; ledger references become links to their threads).
+- **ledger-thread** — when Step 5 is yes, **after** the push: one discussion thread per `N.CONFLICT-*.md`; body = that ledger's full content per [mr-pr-formatting.md](mr-pr-formatting.md). One thread, one ledger — plus the **summary thread** posted last (index only; ledger references become links to their threads).
 
 ## Ledger gate
 
@@ -33,10 +34,10 @@ Run **before** every `git rebase --continue` and **before** declaring Step 1 or 
 
 For **every** path that was unmerged at the current stop (or across the whole run when finishing):
 
-1. Untracked `N. CONFLICT-<slug>.md` exists at the **repository root** (match path to ledger via its bold path line).
-2. Ledger has all required blocks from [ledger-template.md](ledger-template.md) filled — especially the bold path line, **Context**, **Code** (with snippets; **Landed** when the tree is authored), and the closing **Worth verifying** line (`⚠️ yes` carries a why-line, or `✅ no`).
+1. Untracked `N.CONFLICT-<slug>.md` exists at the **repository root** (match path to ledger via its `**file:**` line).
+2. Ledger has all required blocks from [ledger-template.md](ledger-template.md) filled — especially the **file:** / **applying:** header, **Code** (with snippets; **Landed** when the tree is authored), and the closing **Worth verifying** line (`⚠️ yes` carries a why-line, or `✅ no`).
 3. Ledger paths are **not** staged (`git diff --cached --name-only` contains zero `CONFLICT-*.md`).
-4. **Whole-run only:** untracked `LEDGER-REBASE-SUMMARY.md` exists at repo root, is **not** staged, and covers every `N. CONFLICT-*.md` — one entry per ledger, flags read from the ledgers, not re-judged.
+4. **Whole-run only:** untracked `LEDGER-REBASE-SUMMARY.md` exists at repo root, is **not** staged, and covers every `N.CONFLICT-*.md` — its header, then **Onto:**, then one entry per ledger, each linking its ledger file; flags read from the ledgers, not re-judged.
 
 Check unmerged paths:
 
@@ -47,7 +48,7 @@ git diff --name-only --diff-filter=U
 List ledgers at repo root:
 
 ```bash
-ls -1 | grep -E '^[0-9]+\. CONFLICT-.*\.md$' || true
+ls -1 | grep -E '^[0-9]+\.CONFLICT-.*\.md$' || true
 ```
 
 **Gate passes** only when unmerged list is empty for this stop, ledger count for handled paths matches (one ledger per conflicted path), every ledger passes the section check above, and (whole-run) the summary covers every ledger. A green rebase with zero ledgers after conflicts = **Step 1 incomplete** — go back and write ledgers.
@@ -79,7 +80,7 @@ git diff --name-only --diff-filter=U
 
 For **each** path in that list, in order:
 
-1. **Ledger** — next `N` → write `N. CONFLICT-<slug>.md` at repo root from [ledger-template.md](ledger-template.md) (Non-negotiables satisfied). **Stop here until the file exists and its blocks are filled.**
+1. **Ledger** — next `N` → write `N.CONFLICT-<slug>.md` at repo root from [ledger-template.md](ledger-template.md) (Non-negotiables satisfied). **Stop here until the file exists and its blocks are filled.**
 2. **Resolve** — edit the source path (union bias; `git-rebase` patterns when loaded).
 3. **Stage** — `git add` only that resolved source path(s).
 4. Repeat for every path in this stop.
@@ -90,25 +91,25 @@ Then run **Ledger gate**. Only if it passes:
 
 Repeat the whole stop cycle until rebase finishes.
 
-**Completion**: rebase finished; ledger gate passes for the full run; every conflicted path has exactly one complete untracked ledger; zero ledger files staged; you can list every `N. CONFLICT-*.md` path. (The summary is not assembled here — post-rebase ledgers from Step 2 would miss it.)
+**Completion**: rebase finished; ledger gate passes for the full run; every conflicted path has exactly one complete untracked ledger; zero ledger files staged; you can list every `N.CONFLICT-*.md` path. (The summary is not assembled here — post-rebase ledgers from Step 2 would miss it.)
 
 ### Step 2 — Verify
 
-Read project markdown (`AGENTS.md`, `CONTRIBUTING.md`, `README.md`, `docs/`, other workflow `*.md`) for verify commands; cross-check format, lint, typecheck, build, unit tests, integration tests, e2e tests, other. Run every command collected (default order when docs silent: format → lint → typecheck → build → unit → integration → e2e → other). Fix before Step 3; conflict-adjacent fixes ledger-first (`N. CONFLICT-post-rebase-<slug>.md`).
+Read project markdown (`AGENTS.md`, `CONTRIBUTING.md`, `README.md`, `docs/`, other workflow `*.md`) for verify commands; cross-check format, lint, typecheck, build, unit tests, integration tests, e2e tests, other. Run every command collected (default order when docs silent: format → lint → typecheck → build → unit → integration → e2e → other). Fix before Step 3; conflict-adjacent fixes ledger-first (`N.CONFLICT-post-rebase-<slug>.md`).
 
 **Assemble the summary only after every command is green** — the last ledger artifact, so no post-rebase ledger can appear after it: `LEDGER-REBASE-SUMMARY.md` at repo root, written per [summary-template.md](summary-template.md).
 
-**Completion**: all collected commands green; summary assembled at repo root and covers every `N. CONFLICT-*.md` (conflicted + post-rebase); summary untracked.
+**Completion**: all collected commands green; summary assembled at repo root and covers every `N.CONFLICT-*.md` (conflicted + post-rebase); summary untracked.
 
 ### Step 3 — Commit fallout
 
 Commit all remaining tracked changes from resolution/verify. Use `git-commit` skill or project commit docs. Unstage any ledger paths before commit (Non-negotiables).
 
-**Completion**: clean tracked tree; only untracked `N. CONFLICT-*.md` and `LEDGER-REBASE-SUMMARY.md` (plus unrelated pre-existing untracked).
+**Completion**: clean tracked tree; only untracked `N.CONFLICT-*.md` and `LEDGER-REBASE-SUMMARY.md` (plus unrelated pre-existing untracked).
 
 ### Step 4 — Hand off ledgers
 
-Report rebase + verify green **in chat only**. List every untracked `N. CONFLICT-*.md` path (full repo-relative paths from ledgers) **and** the `LEDGER-REBASE-SUMMARY.md` path. If conflicts occurred and the ledger list is empty, Step 1 is incomplete — write ledgers first.
+Report rebase + verify green **in chat only**. List every untracked `N.CONFLICT-*.md` path (full repo-relative paths from ledgers) **and** the `LEDGER-REBASE-SUMMARY.md` path. If conflicts occurred and the ledger list is empty, Step 1 is incomplete — write ledgers first.
 
 **Completion**: user has the full ledger + summary path list in chat; no MR/PR comments posted.
 
@@ -123,7 +124,7 @@ Wait for yes or no. **ask-gate**: until they answer, run no `glab mr note`, `gh 
 | Answer | Action |
 |--------|--------|
 | **No** | Skill done — no push, no comments. Push only on a separate explicit request. |
-| **Yes** | **Push first** — `git push --force-with-lease` the rebased branch, so the MR diff matches the ledgers. **Then post** the **ledger-thread** for each `N. CONFLICT-*.md` in order, and the **summary thread** last — read [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report the push and every thread URL (including the summary's). |
+| **Yes** | **Push first** — `git push --force-with-lease` the rebased branch, so the MR diff matches the ledgers. **Then post** the **ledger-thread** for each `N.CONFLICT-*.md` in order, and the **summary thread** last — read [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report the push and every thread URL (including the summary's). |
 
 **Completion**: user answered. If yes: push succeeded; one thread URL per ledger plus one for the summary; thread count equals ledger count + 1.
 
