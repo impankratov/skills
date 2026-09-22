@@ -11,7 +11,7 @@
 | | Combined dump of multiple ledgers |
 | | A conflict thread linking its own ledger without inlining the body |
 
-Step 5 **yes** means ledger threads + summary thread only — not a substitute for Step 4 chat handoff.
+Step 5 **yes** means push, then ledger threads + summary thread — and it is not a substitute for the Step 4 chat handoff.
 
 ## Format each thread
 
@@ -69,4 +69,4 @@ Minimal skeleton:
 
 ## Post order
 
-Post ledger threads in encounter order (`1`, then `2`, …), then the **summary thread last**. Separate API call per thread — never batch ledgers into one note. The summary thread is the only note spanning multiple ledgers, and it carries links and flags, never bodies.
+**Push the rebased commits before the first thread** — the MR diff must match the ledgers; never post threads against a stale diff. Post ledger threads in encounter order (`1`, then `2`, …), then the **summary thread last**. Separate API call per thread — never batch ledgers into one note. The summary thread is the only note spanning multiple ledgers, and it carries links and flags, never bodies.

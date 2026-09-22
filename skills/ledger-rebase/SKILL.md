@@ -23,9 +23,9 @@ Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/
 - **Union bias** — keep both sides' independent additions; ours/theirs only when the resolution's **Rationale** line says union failed.
 - **Serial resolve** — finish editing a path, then `git add` it.
 - **Worth verifying** — every ledger's closing **Worth verifying** line is `⚠️ yes` (carries a why-line) or `✅ no`; the summary thread flags `⚠️ yes` conflicts.
-- **Push** only when the user explicitly asks.
-- **ask-gate** — zero MR/PR comments until Step 5 user says yes. `git push --force-with-lease` is not a comment; it satisfies "update MR" by refreshing the diff only.
-- **ledger-thread** — when Step 5 is yes: one discussion thread per `N. CONFLICT-*.md`; body = that ledger's full content per [mr-pr-formatting.md](mr-pr-formatting.md). One thread, one ledger — plus the **summary thread** posted last (index only; ledger references become links to their threads).
+- **Push** only when the user explicitly asks — the Step 5 **yes** is that ask; push **before** any thread.
+- **ask-gate** — zero MR/PR comments until Step 5 user says yes. `git push --force-with-lease` is not a comment — it refreshes the diff.
+- **ledger-thread** — when Step 5 is yes, **after** the push: one discussion thread per `N. CONFLICT-*.md`; body = that ledger's full content per [mr-pr-formatting.md](mr-pr-formatting.md). One thread, one ledger — plus the **summary thread** posted last (index only; ledger references become links to their threads).
 
 ## Ledger gate
 
@@ -112,21 +112,21 @@ Report rebase + verify green **in chat only**. List every untracked `N. CONFLICT
 
 **Completion**: user has the full ledger + summary path list in chat; no MR/PR comments posted.
 
-### Step 5 — ask-gate → ledger-thread?
+### Step 5 — ask-gate → push + ledger-thread?
 
-**Stop. Ask the user** (exact intent, one question):
+**Stop. Ask the user** (exact intent, one question — the yes covers **both** push and post):
 
-> Post conflict ledgers to the MR/PR as separate discussion threads (one full ledger per thread) plus a summary thread flagging which are worth verifying?
+> Push the rebased commits and post conflict ledgers to the MR/PR as separate discussion threads (one full ledger per thread) plus a summary thread flagging which are worth verifying?
 
 Wait for yes or no. **ask-gate**: until they answer, run no `glab mr note`, `gh pr comment`, or other MR/PR discussion API.
 
 | Answer | Action |
 |--------|--------|
-| **No** | Skill done. MR refresh = push only (if already authorized). |
-| **Yes** | Post **ledger-thread** for each `N. CONFLICT-*.md` in order, then the **summary thread** last — read [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report every thread URL (including the summary's). |
+| **No** | Skill done — no push, no comments. Push only on a separate explicit request. |
+| **Yes** | **Push first** — `git push --force-with-lease` the rebased branch, so the MR diff matches the ledgers. **Then post** the **ledger-thread** for each `N. CONFLICT-*.md` in order, and the **summary thread** last — read [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report the push and every thread URL (including the summary's). |
 
-**Completion**: user answered. If yes: one thread URL per ledger plus one for the summary; thread count equals ledger count + 1.
+**Completion**: user answered. If yes: push succeeded; one thread URL per ledger plus one for the summary; thread count equals ledger count + 1.
 
 ## Done
 
-Steps 0–4 complete (including ledger gate + full ledger & summary path list in chat); Step 5 answered; ask-gate respected.
+Steps 0–4 complete (including ledger gate + full ledger & summary path list in chat); Step 5 answered; ask-gate respected; if yes: pushed, then posted.
