@@ -23,10 +23,9 @@ failure.
 ### Create
 
 1. Activate `writing-for-agents`.
-2. Activate `create-skill` when structuring a new skill folder / frontmatter.
-3. Author under `skills/<name>/SKILL.md`.
-4. Update [README.md](README.md) (blurb + install line) when adding a skill.
-5. Verify with `writing-for-agents` → then commit.
+2. Author under `skills/<name>/SKILL.md`.
+3. Update [README.md](README.md) (blurb + install line) when adding a skill.
+4. Verify with `writing-for-agents` → then commit.
 
 ### Edit
 
