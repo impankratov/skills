@@ -34,6 +34,12 @@ Every project wants its MRs a certain way. This reads the project's rules, pushe
 
 Install: `npx skills add impankratov/skills -g -s git-pr`
 
+#### [worktrunk-worktree](skills/worktrunk-worktree/SKILL.md)
+
+A worktree tool needs the worktree manager, not a guessed folder name. This detects whether the repo is Worktrunk-managed and routes branch switches, branch creation, and worktree creation through `wt` — including running the lifecycle hooks in the foreground before the new worktree gets used.
+
+Install: `npx skills add impankratov/skills -g -s worktrunk-worktree`
+
 ### Other
 
 #### [extract-issue](skills/extract-issue/SKILL.md)
