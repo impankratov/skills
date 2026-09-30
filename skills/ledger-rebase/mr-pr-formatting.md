@@ -1,13 +1,13 @@
 # MR/PR ledger-thread formatting
 
-**ledger-thread** — one new discussion per `N.CONFLICT-*.md`, encounter order (`N`). One thread carries one ledger's full body. After every ledger thread: one **summary thread** — the rebase index, its ledger references turned into links.
+**ledger-thread** — one new discussion per `N.CONFLICT-*.md`, encounter order (`N`). One thread carries one ledger's body, folded under its title. After every ledger thread: one **summary thread** — the rebase index, its ledger references turned into links.
 
 ## Scope (what belongs in an MR comment)
 
 | In scope | Out of scope |
 |----------|--------------|
-| Full body of one `N.CONFLICT-*.md` (formatted below) | Rebase changelog, verify results, commit SHAs |
-| **Summary thread** — `LEDGER-REBASE-SUMMARY.md`: a numbered list — one item per ledger, the ledger's `N` as the list marker (`N. CONFLICT-<slug>` + `⚠️` when that ledger's **Worth verifying** flags `⚠️ yes`), each slug a link to that conflict's thread | "Work done" or agent status notes |
+| One `N.CONFLICT-*.md` as a folded thread (formatted below) | Rebase changelog, verify results, commit SHAs |
+| **Summary thread** — `LEDGER-REBASE-SUMMARY.md`: a numbered list — one item per ledger, the ledger's `N` as the list marker (`N. CONFLICT-<slug>` + `⚠️` when that ledger's title carries ⚠️), each slug a link to that conflict's thread | "Work done" or agent status notes |
 | | Combined dump of multiple ledgers |
 | | A conflict thread linking its own ledger without inlining the body |
 
@@ -17,35 +17,52 @@ Step 5 **yes** means push, then ledger threads + summary thread — and it is no
 
 The note body is **rendered Markdown**, not a dump of files.
 
-1. **Inline as Markdown** — paste that ledger's body into **its** note. Language fences live **only** inside ledger code snippets (HEAD / Incoming / Landed), as in the template. The note is plain Markdown — no outer ` ```markdown ` / ` ```md ` wrapper.
-
-2. **Section title** — plain text (no backticks): strip `.md` from the filename, and **omit** the conflicted path (path is the `**file:**` line):
+1. **Title** — the ledger's own title line, **verbatim**, emoji included:
 
     ```markdown
-    ## 1.CONFLICT-<slug>
+    ## 2.CONFLICT-widget-list ⚠️
     ```
 
-    On-disk file is `N.CONFLICT-<slug>.md`; note title is that name without `.md`. The ledger has no H1 (filename is the title) — keep the `**file:**` header list and all blocks unchanged.
+2. **Fold the body** — everything below that title line goes inside one `<details>`, so a long rebase leaves one line per ledger on the page instead of a wall of code:
 
-3. **Inline only** — paste the ledger body; skip attachment lines and local-file meta.
+    ```markdown
+    ## 2.CONFLICT-widget-list ⚠️
 
-4. **Format fixes** — if the user corrects a conflict's note, **edit that same thread** (forge update API). Do not fold it back into a combined dump.
+    <details>
+    <summary>Resolution</summary>
+
+    - **file:** `src/features/widgets/widget-list.ts`
+    …
+
+    </details>
+    ```
+
+    The blank lines around the body are mandatory — without them the forge renders the Markdown as literal text. The fold is raw HTML, never a fenced block: language fences stay **only** inside the ledger's own snippets (HEAD / Incoming / Landed), as in [ledger-template.md](ledger-template.md). Never emit `<details open>`.
+
+3. **Inline only** — the folded body is the ledger's content unchanged; skip attachment lines and local-file meta.
+
+4. **Format fixes** — if the user corrects a conflict's note, **edit that same thread** (forge update API). Do not merge it back into a combined dump.
 
 Minimal skeleton (**one note = one ledger**):
 
 ```markdown
-## 1.CONFLICT-a
+## 1.CONFLICT-a ☑️
+
+<details>
+<summary>Resolution</summary>
 
 - **file:** `<full/repo-relative/path>`
 - **applying:** `<sha>` — `<subject>` (`<type>`)
 …
+
+</details>
 ```
 
 ## Summary thread
 
 Posted **last**, after every ledger thread — its links need the ledger thread URLs to exist first.
 
-The thread carries the on-disk `LEDGER-REBASE-SUMMARY.md` as-is, with one change: repoint each item's file link from the ledger file to that conflict's thread URL — `N. [CONFLICT-<slug>](<that conflict's thread url>)`. The `## Ledger-rebase summary` header and the **Onto:** line stay; list markers and `⚠️` marks stay verbatim. No paths, no why-lines, no ledger bodies — the linked thread already carries all of it.
+The thread carries the on-disk `LEDGER-REBASE-SUMMARY.md` as-is, with one change: repoint each item's file link from the ledger file to that conflict's thread URL — `N. [CONFLICT-<slug>](<that conflict's thread url>)`. The `## Ledger-rebase summary` header and the **Onto:** line stay; list markers and `⚠️` marks stay verbatim. No paths, no ledger bodies — the linked thread already carries all of it.
 
 Minimal skeleton:
 

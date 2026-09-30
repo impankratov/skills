@@ -6,27 +6,38 @@ Example filenames: `1.CONFLICT-auth.md`, `2.CONFLICT-api-client.md`.
 
 ### Required blocks
 
-Ledger title = filename (`N.CONFLICT-<slug>.md`) — **no `# Conflict:` heading**. Same blocks in every ledger; density follows the resolution kind:
+Every ledger is **what you got, then what you did**. Four blocks, always in this order:
 
-| Kind | What it is | Worth verifying |
-|------|------------|-----------------|
-| **Verbatim** | pure pick of one side, or clean union of both sides' independent additions, zero edits | `✅ no` |
-| **Authored** | hand-blended regions, reconciled interfaces, callsites cleaned, deletion with follow-up edits, post-rebase latent fix | `⚠️ yes — <why-line>` |
+1. **Title** — `## N.CONFLICT-<slug>` plus **exactly one** emoji: ⚠️ authored, ☑️ verbatim.
 
-Every ledger opens with a bold header list and MUST include these blocks, filled (no empty stubs):
+   | Emoji | Kind | What it is |
+   |-------|------|------------|
+   | ⚠️ | **Authored** | hand-blended regions, reconciled interfaces, callsites cleaned, deletion with follow-up edits, post-rebase latent fix |
+   | ☑️ | **Verbatim** | pure pick of one side, or clean union of both sides' independent additions, zero edits |
+
+   The title is the ledger's whole verdict on itself, and the ledger ends on its last block. Set the emoji when **Landed** is filled, not when the file is created: before the blend is done the kind is a guess, and the title stays correctable until the path is staged.
+
+2. **Header list** — `- **file:**` with the full repo-relative path, no abbreviated segments (modify/delete: one line each for the surviving and the deleted path); then `- **applying:**` with the sha as **bare text** (GitLab links a bare sha, not a code span), the subject, and the conflict type in parentheses.
+
+3. **Code** — captured from the conflict region **before** editing the file, because editing destroys the markers that carry both sides. Verbatim: one block, the winning side as landed, its description stating the resolution. Authored: **HEAD** then **Incoming**, each stating what it wanted.
+
+4. **Landed** — authored only: what landed, an optional **Rationale:** paragraph, then the snippet as it stands in the tree.
+
+### Example
 
 ````markdown
-<!-- full repo-relative path; no abbreviated segments — a reviewer must be able to open each path as written (copy-paste into the editor). Modify/delete: list surviving and deleted paths, one `**file:**` line each. -->
+## 2.CONFLICT-widget-list ⚠️
+
+<!-- full repo-relative path — a reviewer must be able to open it as written -->
 - **file:** `src/features/widgets/widget-list.ts`
 - **applying:** 3f2c9a1 — "add widget export" (content)
-  <!-- sha as BARE text, no backticks — GitLab links a bare sha, not a code span. Conflict type: content | modify/delete | add/add | rename+content | … -->
+  <!-- conflict type: content | modify/delete | add/add | rename+content | … -->
 
 ### Code
 
 <!-- One block per side: optional path in the header (rename only — then BOTH sides list their
      filenames: HEAD = old path, Incoming = new path), a one-line description, then the snippet.
-     verbatim: ONE block — the winning side's region as landed, its description = the resolution.
-     authored: HEAD then Incoming (description = what it wanted), then Landed below. -->
+     verbatim: ONE block — the winning side's region as landed, its description = the resolution. -->
 
 **HEAD** — `src/legacy/settings/widget-list.ts`
 
@@ -44,14 +55,9 @@ What it wanted — one line.
 // decisive snippet from Incoming side
 ```
 
-<!-- Block-header filenames are OPTIONAL — shown only on a rename, where BOTH sides list them
-     (HEAD = old path, Incoming = new path) so the file's history survives next to the **file:** header.
-     No rename → omit the ` — path` suffix entirely. -->
-
-<!-- heading reads exactly `### Landed` (authored-only condition: Template notes) -->
 ### Landed
 
-The resolution — concrete, one or two lines; then the snippet. Optional **Rationale:** line as its own paragraph:
+The resolution — concrete, one or two lines; then the snippet.
 
 Kept the rename; kept HEAD's exportWidget; took Incoming's store-bound list.
 
@@ -60,16 +66,12 @@ Kept the rename; kept HEAD's exportWidget; took Incoming's store-bound list.
 ```ts
 // what is in the tree after resolution
 ```
-
-**Worth verifying:** ⚠️ yes — <why-line>
 ````
 
 ### Template notes
 
-- **Rationale / Worth verifying are inline bold lines, never `###` headings.**
-- **Worth verifying** closes every ledger, always present: `⚠️ yes — <why-line>` or `✅ no`.
-- **Verbatim** — no `### Landed`; the resolution text (and any rationale) folds into the winning block's description, then closes with **Worth verifying:** `✅ no`.
-- **Onto** lives once in the summary's **Onto:** line, not per ledger — the rebase target is the same for the whole run.
-- **Modify/delete** — document which side won; the **file:** lines list surviving and deleted full paths.
-- **Post-rebase latent fixes** — `N.CONFLICT-post-rebase-<slug>.md`, same blocks; authored → full form; continue the `N` sequence.
-- **Rebase summary drives the thread** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors each ledger's **Worth verifying**: `⚠️ yes` ledgers carry a `⚠️` in the summary thread per [summary-template.md](summary-template.md). Posting format: [mr-pr-formatting.md](mr-pr-formatting.md).
+- **Rationale is an inline bold line**, never a `###` heading.
+- **Verbatim** — no **Landed**; the resolution reads as the winning block's description.
+- **Rename** — block headers carry the path on **both** sides (HEAD = old, Incoming = new) so the file's history survives; no rename → omit the ` — path` suffix.
+- **Post-rebase latent fixes** — `N.CONFLICT-post-rebase-<slug>.md`, same blocks, always ⚠️; its `- **applying:**` carries the failing verify command in place of a sha.
+- **The summary mirrors the title** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) carries a ⚠️ for each ⚠️-titled ledger per [summary-template.md](summary-template.md). Posting format: [mr-pr-formatting.md](mr-pr-formatting.md).
