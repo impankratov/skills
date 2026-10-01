@@ -19,9 +19,11 @@ Every ledger is **what you got, then what you did**. Four blocks, always in this
 
    Set the emoji when **Landed** is filled, not when the file is created: before the blend is done the test cannot be applied, and the title stays correctable until the path is staged.
 
-2. **Header list** — `- **file:**` with the full repo-relative path, no abbreviated segments (modify/delete: one line each for the surviving and the deleted path); then `- **applying:**` with the sha as **bare text** (GitLab links a bare sha, not a code span), the subject, and the conflict type in parentheses.
+2. **Header list** — `- **file:**` with the full repo-relative path, no abbreviated segments, one line per path the conflict involved (modify/delete: the surviving and the deleted path). When the path moved — any rename — `- **file:**` is the **resulting** filename, one line, and the old name is on the **Code** block headers. Then `- **applying:**` with the sha as **bare text** (GitLab links a bare sha, not a code span), the subject, and the conflict type in parentheses.
 
 3. **Code** — captured from the conflict region **before** editing the file, because editing destroys the markers that carry both sides. Verbatim: one block, the winning side as landed, its description stating the resolution. Authored: **HEAD** then **Incoming**, each stating what it wanted.
+
+   Block headers take a ` — <path>` suffix **only on a rename** — HEAD = old path, Incoming = new — so the pair shows the move and each side's content stays bound to its own filename. Every other header is the bare side name, and so is a verbatim rename's single block: `- **file:**` above already carries the resulting filename.
 
 4. **Landed** — authored only: what landed, an optional **Rationale:** paragraph, then the snippet as it stands in the tree.
 
@@ -37,8 +39,7 @@ Every ledger is **what you got, then what you did**. Four blocks, always in this
 
 ### Code
 
-<!-- One block per side: optional path in the header (rename only — then BOTH sides list their
-     filenames: HEAD = old path, Incoming = new path), a one-line description, then the snippet.
+<!-- One block per side: a one-line description, then the snippet.
      verbatim: ONE block — the winning side's region as landed, its description = the resolution. -->
 
 **HEAD** — `src/legacy/settings/widget-list.ts`
@@ -74,6 +75,5 @@ Kept the rename; kept HEAD's exportWidget; took Incoming's store-bound list.
 
 - **Rationale is an inline bold line**, never a `###` heading.
 - **Verbatim** — no **Landed**; the resolution reads as the winning block's description.
-- **Rename** — block headers carry the path on **both** sides (HEAD = old, Incoming = new) so the file's history survives; no rename → omit the ` — path` suffix.
 - **Post-rebase latent fixes** — `N.CONFLICT-post-rebase-<slug>.md`, same blocks, ⚠️ by the test (a latent fix is code neither side had); its `- **applying:**` carries the failing verify command in place of a sha.
 - **The summary carries the flags** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors the titles per [summary-template.md](summary-template.md); posting format: [mr-pr-formatting.md](mr-pr-formatting.md).

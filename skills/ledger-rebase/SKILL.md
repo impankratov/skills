@@ -18,7 +18,7 @@ Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/
 - **Ledgers stay untracked** — `N.CONFLICT-*.md` at repo root; hand off to human for review; stage and commit only resolved source paths.
 - **Ledger naming** — `N.CONFLICT-<slug>.md`; `N` = encounter ordinal across the whole run (including post-rebase ledgers). Summary is assembled last and is **not** numbered: `LEDGER-REBASE-SUMMARY.md` — not a conflicted path; excluded from per-path counts.
 - **One ledger per conflicted path** (content or modify/delete), not per hunk.
-- **Full paths** in every ledger — complete repo-relative paths; renames list both old and new.
+- **Full paths** in every ledger — complete repo-relative paths; a rename carries both filenames, old and new, in the Code block headers.
 - **Code in every ledger** — fenced snippets of decisive hunks (HEAD / Incoming / Landed); prose-only ledgers are incomplete.
 - **Union bias** — keep both sides' independent additions; ours/theirs only when the resolution's **Rationale** line says union failed.
 - **Serial resolve** — finish editing a path, then `git add` it.
