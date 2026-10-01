@@ -8,14 +8,16 @@ Example filenames: `1.CONFLICT-auth.md`, `2.CONFLICT-api-client.md`.
 
 Every ledger is **what you got, then what you did**. Four blocks, always in this order:
 
-1. **Title** — `## N.CONFLICT-<slug>` plus **exactly one** emoji: ⚠️ authored, ☑️ verbatim.
+1. **Title** — `## N.CONFLICT-<slug>` plus **exactly one** emoji, picked by the test:
 
-   | Emoji | Kind | What it is |
-   |-------|------|------------|
-   | ⚠️ | **Authored** | hand-blended regions, reconciled interfaces, callsites cleaned, deletion with follow-up edits, post-rebase latent fix |
-   | ☑️ | **Verbatim** | pure pick of one side, or clean union of both sides' independent additions, zero edits |
+   | Emoji | Kind | The test |
+   |-------|------|----------|
+   | ⚠️ | **Authored** | **Neither side could have produced this.** The landed region is code HEAD and Incoming did not contain — hand-blended, interfaces reconciled, callsites cleaned, a deletion with follow-up edits, a post-rebase latent fix. |
+   | ☑️ | **Verbatim** | **One side — or git's own union — produced this.** The landed region is a side's region intact, or the automatic union of both sides' independent additions. Zero edits. |
 
-   The title is the ledger's whole verdict on itself, and the ledger ends on its last block. Set the emoji when **Landed** is filled, not when the file is created: before the blend is done the kind is a guess, and the title stays correctable until the path is staged.
+   A ☑️ title states the check happened and found nothing — the summary thread repeats it so the reviewer sees that. A union git already made is ☑️ however many lines moved.
+
+   Set the emoji when **Landed** is filled, not when the file is created: before the blend is done the test cannot be applied, and the title stays correctable until the path is staged.
 
 2. **Header list** — `- **file:**` with the full repo-relative path, no abbreviated segments (modify/delete: one line each for the surviving and the deleted path); then `- **applying:**` with the sha as **bare text** (GitLab links a bare sha, not a code span), the subject, and the conflict type in parentheses.
 
@@ -73,5 +75,5 @@ Kept the rename; kept HEAD's exportWidget; took Incoming's store-bound list.
 - **Rationale is an inline bold line**, never a `###` heading.
 - **Verbatim** — no **Landed**; the resolution reads as the winning block's description.
 - **Rename** — block headers carry the path on **both** sides (HEAD = old, Incoming = new) so the file's history survives; no rename → omit the ` — path` suffix.
-- **Post-rebase latent fixes** — `N.CONFLICT-post-rebase-<slug>.md`, same blocks, always ⚠️; its `- **applying:**` carries the failing verify command in place of a sha.
-- **The summary mirrors the title** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) carries a ⚠️ for each ⚠️-titled ledger per [summary-template.md](summary-template.md). Posting format: [mr-pr-formatting.md](mr-pr-formatting.md).
+- **Post-rebase latent fixes** — `N.CONFLICT-post-rebase-<slug>.md`, same blocks, ⚠️ by the test (a latent fix is code neither side had); its `- **applying:**` carries the failing verify command in place of a sha.
+- **The summary carries the flags** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors the titles per [summary-template.md](summary-template.md); posting format: [mr-pr-formatting.md](mr-pr-formatting.md).

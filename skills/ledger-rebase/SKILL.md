@@ -22,11 +22,11 @@ Overlay on [`git-rebase`](https://github.com/pedronauck/skills/blob/main/skills/
 - **Code in every ledger** — fenced snippets of decisive hunks (HEAD / Incoming / Landed); prose-only ledgers are incomplete.
 - **Union bias** — keep both sides' independent additions; ours/theirs only when the resolution's **Rationale** line says union failed.
 - **Serial resolve** — finish editing a path, then `git add` it.
-- **Flag in the title** — every ledger's title carries exactly one emoji, `⚠️` (authored) or `☑️` (verbatim), set when **Landed** is filled; the summary thread mirrors it.
+- **Flag in the title** — every ledger's title carries exactly one emoji, chosen by the test in [ledger-template.md](ledger-template.md) and set when **Landed** is filled; the summary thread mirrors it.
 - **Onto once** — the rebase target is written once as **Onto:** in the summary, never per ledger.
 - **Push** only when the user explicitly asks — the Step 5 **yes** is that ask; push **before** any thread.
 - **ask-gate** — zero MR/PR comments until Step 5 user says yes. `git push --force-with-lease` is not a comment — it refreshes the diff.
-- **ledger-thread** — when Step 5 is yes, **after** the push: one discussion thread per `N.CONFLICT-*.md`; body = that ledger's content below the title, folded per [mr-pr-formatting.md](mr-pr-formatting.md). One thread, one ledger — plus the **summary thread** posted last (index only; ledger references become links to their threads).
+- **ledger-thread** — when Step 5 is yes, **after** the push: one discussion thread per `N.CONFLICT-*.md`; body = that ledger folded whole, title into the `<summary>`, per [mr-pr-formatting.md](mr-pr-formatting.md). One thread, one ledger — plus the **summary thread** posted last (index only; ledger references become links to their threads).
 
 ## Ledger gate
 
@@ -82,7 +82,7 @@ For **each** path in that list, in order:
 
 1. **Capture** — next `N` → write `N.CONFLICT-<slug>.md` at repo root from [ledger-template.md](ledger-template.md), with the **Title**, header list, and **Code** blocks filled from the conflict region as it stands. **Stop until those blocks exist** — the edit in step 2 destroys the markers that carry both sides.
 2. **Resolve** — edit the source path (union bias; `git-rebase` patterns when loaded).
-3. **Fill** — for an authored resolution add **Landed** with what landed, then set the title's emoji (⚠️ authored, ☑️ verbatim). Non-negotiables satisfied. **Stop until the ledger is complete.**
+3. **Fill** — for an authored resolution add **Landed** with what landed, then set the title's emoji by the test in [ledger-template.md](ledger-template.md). Non-negotiables satisfied. **Stop until the ledger is complete.**
 4. **Stage** — `git add` only that resolved source path(s).
 5. Repeat for every path in this stop.
 

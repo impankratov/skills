@@ -1,6 +1,6 @@
 # MR/PR ledger-thread formatting
 
-**ledger-thread** — one new discussion per `N.CONFLICT-*.md`, encounter order (`N`). One thread carries one ledger's body, folded under its title. After every ledger thread: one **summary thread** — the rebase index, its ledger references turned into links.
+**ledger-thread** — one new discussion per `N.CONFLICT-*.md`, encounter order (`N`). One thread carries one ledger. After every ledger thread: one **summary thread** — the rebase index, its ledger references turned into links.
 
 ## Scope (what belongs in an MR comment)
 
@@ -17,19 +17,11 @@ Step 5 **yes** means push, then ledger threads + summary thread — and it is no
 
 The note body is **rendered Markdown**, not a dump of files.
 
-1. **Title** — the ledger's own title line, **verbatim**, emoji included:
+1. **Fold the whole ledger** — the title line goes into the `<summary>` as plain text (drop the `## `) and the body follows inside the same `<details>`, so a collapsed thread is one line and the page never shows a wall of code:
 
     ```markdown
-    ## 2.CONFLICT-widget-list ⚠️
-    ```
-
-2. **Fold the body** — everything below that title line goes inside one `<details>`, so a long rebase leaves one line per ledger on the page instead of a wall of code:
-
-    ```markdown
-    ## 2.CONFLICT-widget-list ⚠️
-
     <details>
-    <summary>Resolution</summary>
+    <summary>2.CONFLICT-widget-list ⚠️</summary>
 
     - **file:** `src/features/widgets/widget-list.ts`
     …
@@ -37,19 +29,22 @@ The note body is **rendered Markdown**, not a dump of files.
     </details>
     ```
 
-    The blank lines around the body are mandatory — without them the forge renders the Markdown as literal text. The fold is raw HTML, never a fenced block: language fences stay **only** inside the ledger's own snippets (HEAD / Incoming / Landed), as in [ledger-template.md](ledger-template.md). Never emit `<details open>`.
+    Four constraints on that markup:
 
-3. **Inline only** — the folded body is the ledger's content unchanged; skip attachment lines and local-file meta.
+    - **Accessible name** — `<summary>` is the disclosure's only accessible name, so it carries the full title verbatim: slug and emoji, no `## `, no path (the path is the `- **file:**` line inside).
+    - **Blank lines** — mandatory around the body; without them the forge renders the Markdown as literal text.
+    - **Raw HTML** — the fold is never a fenced block; language fences stay **only** inside the ledger's own snippets (HEAD / Incoming / Landed), as in [ledger-template.md](ledger-template.md).
+    - **Collapsed** — never `<details open>`.
 
-4. **Format fixes** — if the user corrects a conflict's note, **edit that same thread** (forge update API). Do not merge it back into a combined dump.
+2. **Inline only** — the folded body is the ledger's content unchanged; skip attachment lines and local-file meta.
+
+3. **Format fixes** — if the user corrects a conflict's note, **edit that same thread** (forge update API). Do not merge it back into a combined dump.
 
 Minimal skeleton (**one note = one ledger**):
 
 ```markdown
-## 1.CONFLICT-a ☑️
-
 <details>
-<summary>Resolution</summary>
+<summary>1.CONFLICT-a ☑️</summary>
 
 - **file:** `<full/repo-relative/path>`
 - **applying:** `<sha>` — `<subject>` (`<type>`)
