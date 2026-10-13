@@ -1,6 +1,6 @@
 ---
 name: fix-review-threads
-description: Thread-by-thread MR/PR review — skip resolved; fix/push/reply or answer; park hard threads.
+description: Thread-by-thread MR/PR review helper — groups unresolved threads into Q/A and fix-needed, presents each thread and holds its draft fix/reply for confirmation; skips resolved.
 disable-model-invocation: true
 ---
 
@@ -10,62 +10,56 @@ disable-model-invocation: true
 
 `fix-review-threads`, `fix review threads`, `MR/PR review reply`, `reply with commit`.
 
-**Thread-by-thread**: one unresolved thread at a time — **Fix**
-(commit→push→reply), **Easy question** (reply), or park **Hard** for
-Step 3. Leave threads unresolved unless the user or project rules
-require resolve.
+Helper for working review threads **one at a time**: present each thread,
+propose a fix or reply, and **hold** it for confirmation before sending.
+Leave threads unresolved unless the user or project rules require resolve.
 
 ## Steps
 
-### 1 — List unresolved threads
+### 1 — List and group unresolved threads
 
 Use the forge CLI (`glab` / `gh`; load those skills if present). Build the
 work list from **unresolved** review discussions only — resolved threads
-are out of scope for the whole run.
+are out of scope.
 
-Classify each unresolved thread:
+Group each unresolved thread:
 
-- **Fix** — needs a code change.
-- **Easy question** — answerable from thread + quick codebase look; reply
-  in-thread (no cite unless you also committed).
-- **Hard / unrelated** — park it; do not block the loop. Collect for
-  Step 3 with enough codebase context for the user to answer or instruct
-  a reply.
+- **Q/A** — answerable from the thread + a quick codebase look; no code
+  change.
+- **Fix** — needs (or probably needs) a code change.
+- **Hard / unrelated** — park it; do not block the loop.
 
-**Completion**: ordered Fix + Easy-question list (id + ask); Hard list
-started (may grow); resolved excluded.
+**Completion**: every unresolved thread is assigned to Q/A, Fix, or Hard.
 
-### 2 — Each Fix / Easy-question thread (repeat)
+### 2 — Work each Q/A and Fix thread, one at a time (repeat)
 
-Repeat this step for **every** Fix and Easy-question thread from Step 1,
-one at a time — finish reply on the current thread before starting the
-next.
+Repeat for **every** Q/A and Fix thread from Step 1, **Q/A group first**.
 
-1. Read that thread only.
-2. **Branch:**
-   - **Fix:** implement → commit (atomic, conventional; repo rules /
-     `git-commit` skill if present) → ensure commits are on the remote
-     the MR/PR tracks (push when user/repo rules allow; cite only SHAs
-     the forge can resolve) → capture cite line(s) with
-     `git log -1 --format='%h %s'` (repeat if several commits for this
-     thread).
-   - **Easy question:** answer in-thread; skip commit/cite unless a fix
-     commit is also part of the answer.
-3. Reply **in that same discussion** using [Reply format](#reply-format).
+1. Read that thread only, plus the minimal files/lines it cites.
+2. Present the thread, in this exact order:
+   1. **Direct markdown link** — `[<thread-id>](<thread-url>)`, so the
+      user can open the thread in the browser.
+   2. **File with line** — the `path:line` (or range) the thread cites.
+   3. **Code block** — the relevant code around that location, with
+      enough surrounding lines for context.
+   4. **Reviewer comment** — the thread's comment **verbatim** (as-is),
+      so it is clear what is being handled.
+   5. **Proposed fix** — if applicable (Fix threads): the minimal change,
+      as before/after code.
+   6. **Draft reply** — if applicable: the reply text following
+      [Reply format](#reply-format).
+3. **Hold for confirmation.** Show the draft and wait; post the reply,
+   commit, or push only after the user approves, then move to the next
+   thread.
 
-Exception: one Fix thread that needs several commits (e.g. separate
-packages per repo atomic-commit rules). Cite all of those on **that**
-thread with the multi-commit form.
-
-**Completion**: every Fix / Easy-question thread from Step 1 has an
-in-thread reply; Fix replies cite remote-reachable SHAs when commits
-were made; no resolve unless user/project required it.
+**Completion**: every Q/A and Fix thread from Step 1 is presented with all
+required fields, with its draft held for approval.
 
 ### 3 — Report parked threads
 
 At end of run, report every Hard / unrelated thread from Step 1 (and any
-reclassified mid-run): discussion id/link, reviewer ask (short quote),
-and codebase context (paths, symbols, current behaviour) so the user can
+reclassified mid-run): discussion id/link, reviewer ask (short quote), and
+codebase context (paths, symbols, current behaviour) so the user can
 answer themselves or tell you what to reply.
 
 **Completion**: parked list empty, or each parked item has ask + context;
@@ -100,6 +94,9 @@ Agreed — path now matches the API base URL.
 Renamed the prop and updated the form consumer.
 ```
 
+One Fix thread may need several commits (e.g. separate packages per repo
+atomic-commit rules); cite all of them on that thread with this form.
+
 ### Citation rules
 
 1. **SHA bare** — no backticks around the short SHA (forge auto-links it).
@@ -108,18 +105,6 @@ Renamed the prop and updated the form consumer.
 3. **Em dash** — ` — ` (space, em dash `—`, space) between SHA and title.
 4. **Bullets for 2+** — never stack bare SHA lines without list markers;
    some forge UIs wrap them into one line.
-
-### Bad
-
-```markdown
-Agreed, fixed.
-
-`a1b2c3d` — ui-button
-`e4f5a67` — ui-form
-```
-
-Why bad: human text before cite; backticked SHA kills the link; title is
-not the commit subject; stacked lines without bullets.
 
 ## Forge — post the reply
 
