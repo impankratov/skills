@@ -71,6 +71,33 @@ Minimal skeleton:
 3. [CONFLICT-widgets](https://…/discussions/…)
 ```
 
+## Posting mechanics
+
+Send each note body — the folded ledger above — as **JSON over stdin**: the forge stores the bytes verbatim, newlines and snippets included.
+
+Build that JSON with a script that reads the ledger file, so the encoding does the escaping — never join the body as a shell string:
+
+```bash
+# <proj> = URL-encoded repo path (group%2Frepo); <iid> = MR/PR number
+python3 - <<'PY'
+import json, pathlib, subprocess
+ledger = pathlib.Path("2.CONFLICT-widget-list.md").read_text()
+title, _, rest = ledger.partition("\n")
+body = f"<details>\n<summary>{title.removeprefix('## ').strip()}</summary>\n\n{rest.strip()}\n\n</details>\n"
+subprocess.run(
+    ["glab", "api", "projects/<proj>/merge_requests/<iid>/notes",
+     "-X", "POST", "-H", "Content-Type: application/json", "--input", "-"],
+    input=json.dumps({"body": body}), text=True, check=True,
+)
+PY
+```
+
+The JSON encoder guarantees the `\n\n` after `</summary>` and keeps every snippet byte-exact. `gh api --input` takes the same JSON shape.
+
+**After each POST/PUT, re-fetch the note and assert it holds `<details>`, the `- **file:**` line, and no literal `@/...` path.** A body that is a bare `@/tmp/...` string means the request sent a file reference, not the content.
+
+`glab api -f`/`--field` sends a field value; it does **not** upload a file, so `-f "body=@ledger.md"` stores the literal string `@ledger.md` as the whole body. To change a note, PUT the same JSON to `.../notes/<note_id>`; when the rendered thread already reads correctly, leave it — a lone missing blank line is cosmetic.
+
 ## Post order
 
 **Push the rebased commits before the first thread** — the MR diff must match the ledgers; never post threads against a stale diff. Post ledger threads in encounter order (`1`, then `2`, …), then the **summary thread last**. Separate API call per thread — never batch ledgers into one note. The summary thread is the only note spanning multiple ledgers, and it carries links and flags, never bodies.
