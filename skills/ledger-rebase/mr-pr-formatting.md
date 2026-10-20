@@ -33,7 +33,7 @@ The note body is **rendered Markdown**, not a dump of files.
 
     - **Accessible name** — `<summary>` is the disclosure's only accessible name, so it carries the full title verbatim: slug and emoji, no `## `, no path (the path is the `- **file:**` line inside).
     - **Blank lines** — mandatory around the body; without them the forge renders the Markdown as literal text.
-    - **Raw HTML** — the fold is never a fenced block; language fences stay **only** inside the ledger's own snippets (HEAD / Incoming / Landed), as in [ledger-template.md](ledger-template.md).
+    - **Raw HTML** — the fold is never a fenced block; language fences stay **only** inside the ledger's own snippets (**HEAD** / **Incoming**; **Landed** only when [ledger-template.md](ledger-template.md) calls for a fence), as in the template.
     - **Collapsed** — never `<details open>`.
 
 2. **Inline only** — the folded body is the ledger's content unchanged; skip attachment lines and local-file meta.
