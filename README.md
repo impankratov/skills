@@ -44,7 +44,7 @@ Install: `npx skills add impankratov/skills -g -s worktrunk-worktree`
 
 #### [extract-issue](skills/extract-issue/SKILL.md)
 
-A Jira or YouTrack ticket is useless in an agent session until it's pulled into a local markdown report with its attachments and linked wiki pages. This does exactly that.
+A Jira or YouTrack ticket is useless in an agent session until it's pulled into a local markdown report with its attachments and linked reference documents. This does exactly that.
 
 Install: `npx skills add impankratov/skills -g -s extract-issue`
 

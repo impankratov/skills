@@ -1,12 +1,12 @@
 ---
 name: extract-issue
-description: Dump an issue-tracker ticket to a local markdown report with attachments and linked wiki pages.
+description: Dump an issue-tracker ticket to a local markdown report with attachments and linked reference documents.
 disable-model-invocation: true
 ---
 
 # extract-issue
 
-Produce a complete **dump** of an issue into a markdown report with local attachment files and linked wiki pages.
+Produce a complete **dump** of an issue into a markdown report with local attachment files and linked reference documents.
 
 ## Invoke
 
@@ -18,9 +18,9 @@ Produce a complete **dump** of an issue into a markdown report with local attach
 
 Use the configured **issue tracker MCP** to fetch the issue with all comments.
 
-If the issue has a parent, fetch the parent too.
+If the issue has a parent, fetch the parent too. Keep the parent's description, summary, and Acceptance Criteria. Drop planning boilerplate (DOR/DOD checklists, templates, news).
 
-**Completion**: All issue and parent data retrieved and stored.
+**Completion**: Issue, comments, and parent summary/AC retrieved.
 
 ### Step 2 — Fetch attachments
 
@@ -36,33 +36,37 @@ Use the download URL from the tracker MCP attachment payload.
 
 ### Step 3 — Gather linked issues
 
-From the tracker's link/relation data, follow these roles when present:
+The tracker may expose link roles directly, or only link counts. When roles are not exposed, retrieve the linked issues and infer each role from its summary and state, then mark it in the report as inferred.
+
+Follow these roles:
 
 - blocked by — always relevant
 - duplicates — always relevant
 - relates to — fetch the linked issue summary; include only if its ID appears in the current issue's description
 - subtask of / parent — fetch parent summary, include always
+- blocks — include (it depends on this issue)
 
 Map tracker-specific link type names onto these roles.
 
-**Completion**: Linked issues list compiled.
+**Completion**: Linked issues list compiled; every role either read from the tracker or explicitly marked inferred.
 
-### Step 4 — Dump wiki pages
+### Step 4 — Dump linked reference documents
 
-Scan the issue description, comments, and linked issues for wiki URLs. For each unique page:
+Collect every reference URL in the issue description, comments, linked-issue summaries, and the parent description/AC. When a linked document is accessible, save it alongside the issue report; this includes wiki pages, ADRs, specs, and any other external document.
 
-1. Extract a stable page id from the URL (path segment or query param the wiki uses).
-2. Use the configured **wiki MCP** get-page tool; prefer markdown conversion when the tool supports it.
-3. Save to `<ISSUE_ID>-wiki-<PAGE_ID>.md` (relative to CWD).
-4. Add a report link: `[wiki: <title>](<ISSUE_ID>-wiki-<PAGE_ID>.md)`.
+For each unique URL:
 
-**Fallback for large pages**: If get-page fails or returns truncated content, retry without markdown conversion (raw HTML/storage format). If that also fails, warn and skip — tell the user to paste the page manually.
+1. Fetch the document with an available tool for its source; prefer markdown when supported.
+2. Save to `<ISSUE_ID>-<kind>-<slug>.md` (relative to CWD), where `<kind>` is the document type, such as `wiki`, `adr`, or `spec`.
+3. Add a report link: `[<kind>: <title>](<ISSUE_ID>-<kind>-<slug>.md)`.
 
-**Completion**: All reachable wiki pages dumped to `<ISSUE_ID>-wiki-<PAGE_ID>.md`.
+**Fallback**: If a document cannot be read (auth error, truncation, unavailable), retry with the raw/source format. If it still fails, list the URL under Reference Documents with a warning.
+
+**Completion**: Every collected reference URL is either saved as a local file or listed in the report as skipped with its URL and reason.
 
 ### Step 5 — Generate markdown
 
-Save the report to `<ISSUE_ID>.md` (relative to CWD). Populate each section from the issue using [`template.md`](template.md); omit template fields the tracker does not provide. Replace attachment links with relative paths like `[<ISSUE_ID>-1.jpeg](<ISSUE_ID>-1.jpeg)`. Extract workaround mentions from the description if present. Preserve comment author, timestamp, and text verbatim. Include a "Wiki References" section listing dumped wiki files.
+Save the report to `<ISSUE_ID>.md` (relative to CWD). Populate each section from the issue using [`template.md`](template.md); omit template fields the tracker does not provide. Replace attachment links with relative paths like `[<ISSUE_ID>-1.jpeg](<ISSUE_ID>-1.jpeg)`. Extract workaround mentions from the description if present. Preserve comment author, timestamp, and text verbatim. Include a "Reference Documents" section listing every dumped document and every skipped reference URL with its reason.
 
 **Completion**: Report saved to `<ISSUE_ID>.md` with all sections populated.
 
@@ -72,7 +76,8 @@ After writing the files, run:
 
 ```bash
 test -f "<ISSUE_ID>.md" && echo "OK: report exists ($(wc -l < <ISSUE_ID>.md) lines)" || echo "FAIL: report missing"
-for f in <ISSUE_ID>-wiki-*.md; do test -f "$f" && echo "OK: wiki $f exists" || echo "WARN: wiki $f missing"; done
+shopt -s nullglob
+for f in <ISSUE_ID>-*.md; do test -f "$f" && echo "OK: reference $f exists" || echo "WARN: reference $f missing"; done
 ```
 
 If the report is missing, re-write it immediately. Proceed to Step 7 only after the report file exists.
@@ -84,7 +89,9 @@ If the report is missing, re-write it immediately. Proceed to Step 7 only after 
 Print the file paths:
 
 ```
-Extracted to <ISSUE_ID>.md (images as <ISSUE_ID>-<N>.<ext>, wiki pages as <ISSUE_ID>-wiki-<PAGE_ID>.md)
+Extracted to <ISSUE_ID>.md (attachments as <ISSUE_ID>-<N>.<ext>, reference documents as <ISSUE_ID>-<kind>-<slug>.md)
 ```
 
-**Completion**: Paths reported.
+Then list every reference document that could not be fetched, with its URL and reason, so the user sees what is missing and can paste it manually. When nothing was skipped, say so.
+
+**Completion**: Paths reported, and every skipped reference URL is surfaced in the chat or explicitly reported as none.

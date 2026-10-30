@@ -25,6 +25,10 @@
 
 - **Parent**: <parent_id> — <parent_summary>
 
+### Acceptance Criteria
+
+<parent acceptance criteria>
+
 ## Linked Issues
 
 <bulleted list of relevant linked issues with ID and summary>
@@ -64,6 +68,7 @@
 
 Attachments saved next to this report in CWD.
 
-## Wiki References
+## Reference Documents
 
-- [wiki: <title>](<ISSUE_ID>-wiki-<PAGE_ID>.md)
+- [<kind>: <title>](<ISSUE_ID>-<kind>-<slug>.md)
+- Skipped: <url> — <reason>
