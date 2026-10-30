@@ -29,6 +29,10 @@
 
 <parent acceptance criteria>
 
+### Definition of Ready / Done
+
+<parent DOR/DOD criteria>
+
 ## Linked Issues
 
 <bulleted list of relevant linked issues with ID and summary>

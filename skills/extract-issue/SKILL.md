@@ -18,9 +18,9 @@ Produce a complete **dump** of an issue into a markdown report with local attach
 
 Use the configured **issue tracker MCP** to fetch the issue with all comments.
 
-If the issue has a parent, fetch the parent too. Keep the parent's description, summary, and Acceptance Criteria. Drop planning boilerplate (DOR/DOD checklists, templates, news).
+If the issue has a parent, fetch the parent too. Keep the parent's description, summary, Acceptance Criteria, and Definition of Ready/Done (DOR/DOD) criteria. Drop empty templates and news.
 
-**Completion**: Issue, comments, and parent summary/AC retrieved.
+**Completion**: Issue, comments, and parent summary/AC/DOR/DOD retrieved.
 
 ### Step 2 — Fetch attachments
 
