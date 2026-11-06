@@ -22,6 +22,12 @@ Twenty comments on an MR bury the open questions. Go one thread at a time: fix w
 
 Install: `npx skills add impankratov/skills -g -s fix-review-threads`
 
+#### [review-gates](skills/review-gates/SKILL.md)
+
+Reviewers keep repeating the same notes. Mine the next N merged MR/PR threads, propose linter/formatter/type-check rules or docs, stay in chat until you say implement. A cursor under `.review-gates/` remembers how far you got, so the next run takes the newer batch.
+
+Install: `npx skills add impankratov/skills -g -s review-gates`
+
 #### [git-commit](skills/git-commit/SKILL.md)
 
 Your commit history is your changelog. This writes it the way the project expects: changes analyzed, split into logical commits, messages following the project's conventions.
