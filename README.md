@@ -18,7 +18,7 @@ Install: `npx skills add impankratov/skills -g -s ledger-rebase`
 
 #### [fix-review-threads](skills/fix-review-threads/SKILL.md)
 
-Twenty comments on an MR bury the open questions. Go one thread at a time: fix what you can with a commit, reply to the easy ones, park the rest for a human.
+Twenty comments on an MR bury the open questions. One thread at a time: proposals and draft replies in chat only until you say `reply with …` (then commit, push, post). Auto-continues after send or `skip`/`next`. No MR URL — open MR/PR for the current branch.
 
 Install: `npx skills add impankratov/skills -g -s fix-review-threads`
 
