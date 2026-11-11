@@ -1,6 +1,6 @@
 ---
 name: fix-review-threads
-description: MR/PR review threads one-by-one — dry-run proposals in chat; git write and forge post only on "reply with …"; auto-advance after send or skip. No URL → current branch MR.
+description: MR/PR review threads one-by-one — dry-run proposals in chat; git write and forge post on confirm (yes / reply with …); auto-advance after send or skip. No URL → current branch MR.
 disable-model-invocation: true
 ---
 
@@ -8,19 +8,22 @@ disable-model-invocation: true
 
 ## Invoke
 
-`fix-review-threads`, `fix review threads`, `MR/PR review reply`, `reply with …`,
-`next`, `skip`.
+`fix-review-threads`, `fix review threads`, `MR/PR review reply`,
+`reply with …`, `next`, `skip`.
 
 ## Dry-run vs send
 
-Leading words: **dry-run**, **send**, **skip**, **advance** ([Advance](#advance)).
+Leading words: **dry-run**, **confirm**, **revise**, **send**, **skip**,
+**advance** ([Advance](#advance)).
 
 - **Dry-run** (default): read the thread and cited code; present
   [Step 2](#2--work-each-qa-and-fix-thread-repeat) fields. Fix threads: before/after
   stays **chat-only** (no working-tree edits). No `git`, no forge post.
-- **Send** (strict gate): the user's message includes **reply with** (plus draft,
-  thread link/id, or “the last draft”). Other approval (“ok”, “lgtm”, “go ahead”)
-  remains **dry-run** — still no commit or post.
+- **Confirm** → **send**: after a dry-run is waiting, a short assent posts the
+  waiting draft — `yes`, `ok`, `lgtm`, `go ahead`, or **reply with** (last
+  draft / thread id).
+- **Revise**: new reply text, a question, or a change to the proposal. Stay
+  **dry-run**; replace the draft or answer in chat.
 - **Send — Fix**: implement, **commit**, **push**, confirm SHAs on remote
   ([Citation rules](#citation-rules) rule 5), post draft.
 - **Send — Q/A**: post draft only.
@@ -32,7 +35,9 @@ After the current Q/A or Fix thread:
 
 1. **Advance** to the next thread in Step 1 order (Q/A group, then Fix) when
    **send** finished or the user **skip**ped.
-2. After dry-run presentation: **wait** for send, skip, or a revised draft.
+2. After dry-run presentation: **wait** for **confirm**, **skip**, or
+   **revise**. Close the presentation with: `yes` to post, `skip`, or paste a
+   revision.
 
 ## Steps
 
