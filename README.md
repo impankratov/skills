@@ -40,6 +40,12 @@ Every project wants its MRs a certain way. This reads the project's rules, pushe
 
 Install: `npx skills add impankratov/skills -g -s git-pr`
 
+#### [git-backport](skills/git-backport/SKILL.md)
+
+Merged on one line, needed on another — main↔release, hotfix→develop, whatever the project names. Reads port/backport rules, cherry-picks (or follows the doc's path), then loads `git-pr` to open the MR onto the target branch.
+
+Install: `npx skills add impankratov/skills -g -s git-backport`
+
 #### [worktrunk-worktree](skills/worktrunk-worktree/SKILL.md)
 
 A worktree tool needs the worktree manager, not a guessed folder name. This detects whether the repo is Worktrunk-managed and routes branch switches, branch creation, and worktree creation through `wt` — including running the lifecycle hooks in the foreground before the new worktree gets used.
