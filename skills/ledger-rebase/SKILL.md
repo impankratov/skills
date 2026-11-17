@@ -140,10 +140,10 @@ Wait for yes or no. **ask-gate**: until they answer, run no `glab mr note`, `gh 
 | Answer | Action |
 |--------|--------|
 | **No** | Skill done — no push, no comments. Push only on a separate explicit request. |
-| **Yes** | **Push first** — `git push --force-with-lease` the rebased branch, so the MR diff matches the ledgers. **Then post** the **ledger-thread** for each `N.CONFLICT-*.md` in order, and the **summary thread** last — read [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. Report the push and every thread URL (including the summary's). |
+| **Yes** | **Push first** — `git push --force-with-lease` the rebased branch, so the MR diff matches the ledgers. **Then post** the **ledger-thread** for each `N.CONFLICT-*.md` in order, and the **summary thread** last — read [mr-pr-formatting.md](mr-pr-formatting.md). Forge: `glab` / `gh`; `git-pr` / `glab` skills as needed. In chat, report the push and the **summary thread URL** — that note already links each ledger thread. |
 
-**Completion**: user answered. If yes: push succeeded; one thread URL per ledger plus one for the summary; thread count equals ledger count + 1.
+**Completion**: user answered. If yes: push succeeded; every ledger posted then the summary; chat contains the summary thread URL.
 
 ## Done
 
-Steps 0–4 complete (including ledger gate whole-run pass + full ledger & summary path list in chat); Step 5 answered; ask-gate respected; if yes: pushed, then posted.
+Steps 0–4 complete (including ledger gate whole-run pass + full ledger & summary path list in chat); Step 5 answered; ask-gate respected; if yes: pushed, then posted, chat has the summary thread URL.
