@@ -1,6 +1,6 @@
 ---
 name: fix-review-threads
-description: MR/PR review threads one-by-one — dry-run proposals in chat; git write and forge post on confirm (yes / reply with …); auto-advance after send or skip. No URL → current branch MR.
+description: MR/PR review threads one-by-one — dry-run in chat; Fix threads need two confirms (implement, then post reply after you review code); Q/A posts on one confirm. Auto-advance after send or skip. No URL → current branch MR.
 disable-model-invocation: true
 ---
 
@@ -19,14 +19,19 @@ Leading words: **dry-run**, **confirm**, **revise**, **send**, **skip**,
 - **Dry-run** (default): read the thread and cited code; present
   [Step 2](#2--work-each-qa-and-fix-thread-repeat) fields. Fix threads: before/after
   stays **chat-only** (no working-tree edits). No `git`, no forge post.
-- **Confirm** → **send**: after a dry-run is waiting, a short assent posts the
-  waiting draft — `yes`, `ok`, `lgtm`, `go ahead`, or **reply with** (last
-  draft / thread id).
-- **Revise**: new reply text, a question, or a change to the proposal. Stay
-  **dry-run**; replace the draft or answer in chat.
-- **Send — Fix**: implement, **commit**, **push**, confirm SHAs on remote
-  ([Citation rules](#citation-rules) rule 5), post draft.
-- **Send — Q/A**: post draft only.
+- **Confirm** → **send**: short assent — `yes`, `ok`, `lgtm`, `go ahead`, or
+  **reply with** (last draft / thread id).
+  - **Q/A**: post the waiting draft.
+  - **Fix** (dry-run waiting): **implement** only — edit working tree,
+    **commit**, **push**, verify SHAs on remote ([Citation rules](#citation-rules)
+    rule 5). Present the final [Reply format](#reply-format) draft (citations
+    filled in). **Wait** for a second **confirm** before any forge post.
+  - **Fix** (post-implement waiting): post the reply draft; **advance**.
+- **Revise**: new reply text, a question, or a change to the proposal. After
+  dry-run, stay **dry-run** (no git). After implement, revise reply text or ask
+  for code tweaks — re-implement before the second **confirm** if the code must
+  change.
+- **Send — Q/A**: post draft only (single **confirm**).
 - **Skip**: **next** / **skip** / similar — no send; **advance**.
 
 ## Advance
@@ -36,8 +41,11 @@ After the current Q/A or Fix thread:
 1. **Advance** to the next thread in Step 1 order (Q/A group, then Fix) when
    **send** finished or the user **skip**ped.
 2. After dry-run presentation: **wait** for **confirm**, **skip**, or
-   **revise**. Close the presentation with: `yes` to post, `skip`, or paste a
-   revision.
+   **revise**. Close with: Fix — `yes` to implement (not post yet); Q/A — `yes`
+   to post; either — `skip`, or paste a revision.
+3. After **Fix** implement (commit pushed, SHAs verified): **wait** again for
+   **confirm**, **skip**, or **revise** on the reply draft. Close with: `yes` to
+   post the reply, `skip`, or paste a revision.
 
 ## Steps
 
@@ -84,8 +92,9 @@ Follow [Advance](#advance) and [Dry-run vs send](#dry-run-vs-send).
    6. **Draft reply** — [Reply format](#reply-format).
 3. Apply [Advance](#advance).
 
-**Completion**: each Q/A and Fix thread is **sent**, **skipped**, or waiting
-after its dry-run.
+**Completion**: each Q/A thread is **sent**, **skipped**, or waiting after its
+dry-run. Each Fix thread is **sent**, **skipped**, waiting after dry-run, or
+waiting after implement for post **confirm**.
 
 ### 3 — Report parked threads
 
@@ -137,8 +146,8 @@ atomic-commit rules); cite all of them on that thread with this form.
 4. **Bullets for 2+** — never stack bare SHA lines without list markers;
    some forge UIs wrap them into one line.
 5. **GitLab — push before reply** — cited SHAs must be on the MR remote before
-   post (GitLab won't link local-only commits). **Send** order: commit → push →
-   verify SHA on remote → post.
+   post (GitLab won't link local-only commits). **Fix** order: commit → push →
+   verify SHA on remote → user **confirm** → post.
 
 ## Forge — post the reply (send only)
 
