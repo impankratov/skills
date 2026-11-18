@@ -72,15 +72,20 @@ A green rebase with zero ledgers after conflicts = **Step 1 incomplete** — go 
 
 Read and follow `git-rebase` for backup, fetch, strategy, conflict pauses, continue/abort.
 
-**Target ref** — name the branch you rebase onto before starting:
+**Parent ref** — branch this work rebases onto. Plain skill invoke (no onto ref in the message): **infer the parent and start Step 0** — fetch, backup, rebase. Do not stop to confirm the parent or to offer other bases when upstream or the open MR/PR already names one.
 
-1. User, handoff, or open MR/PR for this branch
-2. `git branch -vv`; `git log --oneline --graph --decorate -20`; divergence against plausible candidates (`origin/<candidate>..HEAD`, `HEAD..origin/<candidate>`)
-3. Still unclear → ask user
+Resolve in order; stop at the first single ref:
 
-Use `origin/<target>` (or the named ref) for fetch, rebase, and verify `--base` flags.
+1. Onto ref in the invoke message or an earlier handoff in the thread
+2. Merge target of the open MR/PR for the current branch (`glab` / `gh` when needed)
+3. Upstream on the current branch from `git branch -vv` (prefer `origin/<branch>` when tracking is set)
+4. Rebase already in progress — reuse the onto ref from rebase metadata / `git status`
 
-**Completion**: backup branch exists; target ref named; rebase started (`git status` shows rebase in progress) or user explicitly skipped `git-rebase` and rebase already running.
+When one ref resolves: fetch it, rebase onto that ref (remote-tracking form when appropriate), and use the same ref for verify `--base` flags and summary **Onto:**.
+
+When zero refs resolve, or two or more parents tie with no precedence above: ask **one** question naming what is missing — the onto ref only. No shortlist of alternate workflow bases.
+
+**Completion**: backup branch exists; parent ref fixed for the run; rebase started (`git status` shows rebase in progress) or user explicitly skipped `git-rebase` and rebase already running.
 
 ### Step 1 — Ledger-first resolve (each stop)
 
