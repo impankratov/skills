@@ -103,3 +103,5 @@ The JSON encoder guarantees the `\n\n` after `</summary>` and keeps every snippe
 **Push the rebased commits before the first thread** — the MR diff must match the ledgers; never post threads against a stale diff. Post ledger threads in encounter order (`1`, then `2`, …), then the **summary thread last**. Separate API call per thread — never batch ledgers into one note. The summary thread is the only note spanning multiple ledgers, and it carries links and flags, never bodies.
 
 **Chat report** — one URL: the summary thread. Ledger thread URLs live as links inside that summary.
+
+**Parity follow-up replies** — commit SHAs and "restored **Dropped:** from ledger N" prose go as a **reply on this run's summary thread** only (`glab mr note create --reply <summary-discussion-id>`). Never attach those replies to ledger threads from an older rebase on the same MR. Use bulleted `- <sha> — \`subject\`` lines (GitLab links SHAs).

@@ -12,10 +12,13 @@ Every ledger is **what you got, then what you did**. Four blocks, always in this
 
    | Emoji | Kind | The test |
    |-------|------|----------|
-   | ⚠️ | **Authored** | **Neither side could have produced this.** The landed region is code HEAD and Incoming did not contain — hand-blended, interfaces reconciled, callsites cleaned, a deletion with follow-up edits, a post-rebase latent fix. |
-   | ☑️ | **Verbatim** | **One side — or git's own union — produced this.** The landed region is a side's region intact, or the automatic union of both sides' independent additions. Zero edits. |
+   | ⚠️ | **Authored** | **Neither side could have produced this** in the conflict hunk — hand-blended, interfaces reconciled, callsites cleaned. |
+   | ⚠️ | **Side-pick + parity gap** | **One side's text unchanged in the hunk**, but the **other side had independent behavior** (user-visible or contractual) that **Landed does not contain** and must be restored later (post-rebase ledger / follow-up commits). **Not** ☑️. |
+   | ☑️ | **Verbatim + parity complete** | One side — or git's union — produced **Landed**, and the losing side had **no** independent behavior to preserve in this path, or union kept both. Zero hand edits in the hunk. |
 
-   The emoji classifies the resolution for the summary index — **Landed** states the outcome. ☑️ marks a verbatim pick (which side is named in **Landed**); ⚠️ marks an authored blend (read **Landed** and **Rationale:**). A union git already made is ☑️ however many lines moved.
+   **Parity gap** is the common miss: `git checkout --theirs` looks "verbatim" but **drops `main` behavior** (SARIF disablement, new required inputs, etc.) until you port it. That is ⚠️, not ☑️.
+
+   The emoji classifies the resolution for the summary index — **Landed** states the outcome. ☑️ = clear conflict resolve for this path at `git add` time. ⚠️ = read **Landed**, **Rationale:**, and when applicable **Dropped:** / **Parity:**. A union git already made is ☑️ only if parity is complete.
 
    Set the emoji when **Landed** is filled, not when the file is created: before the blend is done the test cannot be applied, and the title stays correctable until the path is staged.
 
@@ -27,13 +30,49 @@ Every ledger is **what you got, then what you did**. Four blocks, always in this
 
 4. **Landed** — always required; a ledger that ends at **Code** reads unfinished. Names the outcome in prose so the reader does not infer from **Incoming** (last contrast) or from ☑️ alone.
 
-   **Verbatim (picked one side):** one sentence — e.g. took HEAD verbatim, took Incoming verbatim — optional parenthetical context; prose only (winning snippet stays in **Code**).
+   **Verbatim + parity complete (☑️):** one sentence — took HEAD or Incoming verbatim, or named git union; prose only (winning snippet stays in **Code**).
 
-   **Verbatim (git union):** one sentence naming the union; add a fenced snippet only when the merged region is not identical to either side's **Code** block.
+   **Side-pick + parity gap (⚠️):** one sentence naming the winning side in the hunk; then mandatory lines (not headings):
 
-   **Authored:** what you blended (concrete, one or two lines); mandatory **Rationale:** line (why that blend — the idea behind the resulting code); fenced snippet. ⚠️ in the title marks this case for the summary.
+   - **Dropped:** bullets — behavior that lived on the losing side (from **HEAD** when you took Incoming, and vice versa), concrete enough to verify after porting.
+   - **Parity:** where it will be restored — `N.CONFLICT-post-rebase-<slug>.md` planned, or same-stop inline fix before continue.
+   - **Rationale:** why the side-pick was acceptable before parity (e.g. branch architecture); one short line.
 
-### Example (verbatim ☑️)
+   **Authored blend (⚠️):** what you blended; **Rationale:**; fenced snippet when Landed is not identical to either **Code** block.
+
+### Example (side-pick + parity gap ⚠️)
+
+````markdown
+## 1.CONFLICT-manual-ai-triage-button ⚠️
+
+- **file:** `libs/.../manual-ai-triage-button.component.ts`
+- **applying:** e1167c10a — feat(projects): AI triage feedback (AS-8260) (content)
+
+### Code
+
+**HEAD**
+
+`main`: inputs/outputs + SARIF via parent template (`disabled`, `disabledI18nTooltip`).
+
+**Incoming**
+
+Branch: `IssueAiTriageUiStore`, no SARIF in this file.
+
+### Landed
+
+Took Incoming verbatim in the conflict hunk (store-backed button).
+
+**Dropped:**
+
+- SARIF scan disables manual triage + `SCAN-RESULT_DETAILS_SARIF-UNAVAILABLE-TOOLTIP` (was on `vuln-details` → button inputs).
+- Approval toggle disabled while manual triage InProgress (was on `vuln-details` template).
+
+**Parity:** `4.CONFLICT-post-rebase-sarif-manual-triage.md` after rebase verify; approval toggle restore only if product still wants it on `main`.
+
+**Rationale:** replay commits use the store seam; `main` wiring is incompatible without porting into context/store, not into the old inputs.
+````
+
+### Example (verbatim + parity complete ☑️)
 
 ````markdown
 ## 1.CONFLICT-dev-warn-guard ☑️
@@ -109,6 +148,7 @@ export const widgetList = inject(WidgetStore).items;
 
 ### Template notes
 
-- **Rationale** — required on every ⚠️ ledger: inline `**Rationale:**` line (never a `###` heading), after the blend lines and before the **Landed** fence.
+- **Rationale** — required on every ⚠️ ledger (never a `###` heading).
+- **Dropped / Parity** — required on every ⚠️ **side-pick + parity gap** ledger before `git rebase --continue` on that stop. Empty **Dropped:** means you re-checked and the emoji must be ☑️ instead.
 - **Post-rebase latent fixes** — `N.CONFLICT-post-rebase-<slug>.md`, same blocks, ⚠️ by the test (a latent fix is code neither side had); its `- **applying:**` carries the failing verify command in place of a sha.
 - **The summary carries the flags** — `LEDGER-REBASE-SUMMARY.md` (assembled at the end of `SKILL.md` Step 2, after verify is green) mirrors the titles per [summary-template.md](summary-template.md); posting format: [mr-pr-formatting.md](mr-pr-formatting.md).

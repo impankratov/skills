@@ -19,6 +19,16 @@ The summary opens with its `## Ledger-rebase summary` header, then the rebase ta
 
 The destination is the ledger filename — no spaces — so a plain relative link resolves on click in the IDE. The list marker (`1.`) is Markdown's ordered-list marker, separate from the filename's `N.`.
 
-`⚠️` mirrors the ledger's title emoji — appended to that ledger's item; nothing on `☑️`. Mirror the titles, don't re-judge them.
+`⚠️` mirrors the ledger's title emoji — appended to that ledger's item (authored blend **and** side-pick + parity gap); nothing on `☑️`. Mirror the titles, don't re-judge them.
+
+Optional block **after** the numbered list, **before** posting, when any ledger has **Dropped:** / post-rebase ledgers exist:
+
+```markdown
+### Parity follow-up (pending at summary write)
+
+- [4.CONFLICT-post-rebase-sarif-manual-triage.md](4.CONFLICT-post-rebase-sarif-manual-triage.md) — restores items from ledger 1 **Dropped:**
+```
+
+After Step 3 commits, add a **reply on the summary thread** (not on individual conflict threads from a prior rebase) with bulleted `- <sha> — \`subject\`` commit lines and what each restored — see [fix-review-threads](../fix-review-threads/SKILL.md) citation rules.
 
 Posting: [mr-pr-formatting.md](mr-pr-formatting.md) turns the summary into the summary thread — each file link repointed to that conflict's thread; the header and **Onto:** line stay.
