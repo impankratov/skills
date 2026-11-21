@@ -12,7 +12,7 @@ Personal agent skills for web and general development tasks.
 
 > _Previously known as `git-rebase-with-ledger`; that name still works and redirects to this one._
 
-Rebases die on conflicts: files half-merged, decisions lost, comments posted too early. A conflict ledger records every resolution (side-picks that drop `main` behavior are **⚠️ parity gap**, not ☑️ verbatim — **Dropped:** / **Parity:** before continue), verifies the result, keeps fallout in a separate commit, makes you ask before commenting on an MR, then posts one folded thread per ledger plus a summary thread flagging the ⚠️ ones; parity commit SHAs reply on that summary thread only.
+After a rebase, the diff hides what clashed and why you picked a side — reviewers are left guessing whether every resolution was correct. This skill makes conflict resolution auditable: one ledger per conflicted path, written before you continue, capturing what each side had, what landed, and why; then project verify and a separate fallout commit. Reviewers get a trail they can read and challenge, not a finished tree to reverse-engineer.
 
 Install: `npx skills add impankratov/skills -g -s ledger-rebase`
 
