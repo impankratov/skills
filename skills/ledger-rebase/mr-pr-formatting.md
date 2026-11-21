@@ -6,8 +6,8 @@
 
 | In scope | Out of scope |
 |----------|--------------|
-| One `N.CONFLICT-*.md` as a folded thread (formatted below) | Rebase changelog, verify results, commit SHAs |
-| **Summary thread** — `LEDGER-REBASE-SUMMARY.md`: a numbered list — one item per ledger, the ledger's `N` as the list marker (`N. CONFLICT-<slug>` + `⚠️` when that ledger's title carries ⚠️), each slug a link to that conflict's thread | "Work done" or agent status notes |
+| One `N.CONFLICT-*.md` as a folded thread (formatted below) | Rebase changelog, verify command output |
+| **Summary thread** — `LEDGER-REBASE-SUMMARY.md` as on disk: ledger index (`N. CONFLICT-<slug>` + `⚠️` when the ledger title carries ⚠️, each slug linked to that conflict's thread), optional **Post-rebase ledgers**, optional **Follow-up commits** per [commit-citations.md](commit-citations.md) | "Work done" or agent status notes |
 | | Combined dump of multiple ledgers |
 | | A conflict thread linking its own ledger without inlining the body |
 
@@ -57,7 +57,7 @@ Minimal skeleton (**one note = one ledger**):
 
 Posted **last**, after every ledger thread — its links need the ledger thread URLs to exist first.
 
-The thread carries the on-disk `LEDGER-REBASE-SUMMARY.md` as-is, with one change: repoint each item's file link from the ledger file to that conflict's thread URL — `N. [CONFLICT-<slug>](<that conflict's thread url>)`. The `## Ledger-rebase summary` header and the **Onto:** line stay; list markers and `⚠️` marks stay verbatim. No paths, no ledger bodies — the linked thread already carries all of it.
+The thread carries the on-disk `LEDGER-REBASE-SUMMARY.md` as-is, with one change: repoint each **numbered ledger item's** file link from the ledger file to that conflict's thread URL — `N. [CONFLICT-<slug>](<that conflict's thread url>)`. The `## Ledger-rebase summary` header, **Onto:**, **Post-rebase ledgers**, and **Follow-up commits** stay verbatim (including commit citation lines). List markers and `⚠️` marks stay. No conflict-path dumps, no ledger bodies — linked threads carry those.
 
 Minimal skeleton:
 
@@ -104,4 +104,4 @@ The JSON encoder guarantees the `\n\n` after `</summary>` and keeps every snippe
 
 **Chat report** — one URL: the summary thread. Ledger thread URLs live as links inside that summary.
 
-**Parity follow-up replies** — commit SHAs and "restored **Dropped:** from ledger N" prose go as a **reply on this run's summary thread** only (`glab mr note create --reply <summary-discussion-id>`). Never attach those replies to ledger threads from an older rebase on the same MR. Use bulleted `- <sha> — \`subject\`` lines (GitLab links SHAs).
+**Follow-up commits** live in the summary body — do not post SHAs as a separate reply on the summary thread or on ledger threads.
