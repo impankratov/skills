@@ -85,8 +85,10 @@ Follow [Advance](#advance) and [Dry-run vs send](#dry-run-vs-send).
 1. Read that thread only, plus the minimal files/lines it cites.
 2. Present the thread, in this exact order:
    1. **Direct markdown link** — `[<thread-id>](<thread-url>)`.
-   2. **File with line** — the `path:line` (or range) the thread cites.
-   3. **Code block** — relevant code with surrounding context.
+   2. **File with line** — `path:line` for a single-line thread, or
+      `path:start-end` when the forge reports a range (see [Anchor](#anchor)).
+   3. **Code block** — cited lines plus minimal surrounding context; mark
+      every pinned line per [Anchor](#anchor) (chat-only markers, not commits).
    4. **Reviewer comment** — verbatim.
    5. **Proposed fix (chat-only)** — Fix threads: minimal before/after text.
    6. **Draft reply** — [Reply format](#reply-format).
@@ -104,6 +106,50 @@ from Step 1 (and any reclassified mid-run): discussion id/link, reviewer ask
 
 **Completion**: parked list empty, or each parked item has ask + context;
 user has the report.
+
+## Anchor
+
+Dry-run **code blocks** only — marker comments stay in chat, not the
+working tree.
+
+On each pinned line, append an **end-of-line** comment in that file’s syntax:
+`← reviewer's point (L<n>)`, where `<n>` is that line’s number in the
+**current** file (same numbering as field 2). When **two or more** pinned lines
+appear in one snippet, **pad with spaces** after the code so every marker
+starts in the **same column**.
+
+Single-line thread (`src/auth/session.ts:42`):
+
+```typescript
+export function parseSessionCookie(raw: string) {
+  const pair = raw.split(";")[0].trim(); // ← reviewer's point (L42)
+  return pair;
+}
+```
+
+Multi-line thread (`src/auth/session.ts:40-43`): mark **each** line in the
+forge range with its own `(L<n>)`:
+
+```typescript
+  const pair = raw.split(";")[0].trim();        // ← reviewer's point (L40)
+  const [name, value] = pair.split("=", 2);     // ← reviewer's point (L41)
+  if (!name) throw new Error("bad cookie");     // ← reviewer's point (L42)
+  return { name, value };                       // ← reviewer's point (L43)
+```
+
+**Resolve the range from thread metadata**, not from whichever lone integer
+the API returns:
+
+- **GitHub** — multi-line: `start_line` (first) and `line` (last) in the
+  review-comment payload; UI shows “Comment on lines +X to +Y”. Single-line:
+  `line` only, `start_line` null.
+- **GitLab** — multi-line: `position.line_range` (`start` / `end` `new_line`
+  or `old_line` as appropriate); UI shows “Comment on lines +X to +Y”.
+  Single-line: one of `position.new_line` / `position.old_line`, no
+  `line_range`.
+
+If a dump exposes only `line` / `new_line` and `start_line` / `line_range` are
+absent, treat it as **single-line** for field 2 and one marker.
 
 ## Reply format
 
