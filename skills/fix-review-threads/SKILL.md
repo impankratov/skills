@@ -1,6 +1,6 @@
 ---
 name: fix-review-threads
-description: MR/PR review threads one-by-one — dry-run in chat; Fix threads need two confirms (implement, then post reply after you review code); Q/A posts on one confirm. Auto-advance after send or skip. No URL → current branch MR.
+description: MR/PR review threads one-by-one — dry-run in chat; Fix threads need two confirms (implement, then post reply after you review code); Q/A posts on one confirm. Citation lint before forge post (2+ commits → bullet list). Auto-advance after send or skip. No URL → current branch MR.
 disable-model-invocation: true
 ---
 
@@ -23,8 +23,9 @@ Leading words: **dry-run**, **confirm**, **revise**, **send**, **skip**,
   **reply with** (last draft / thread id).
   - **Q/A**: post the waiting draft.
   - **Fix** (dry-run waiting): **implement** only — edit working tree,
-    **commit**, **push**, verify SHAs on remote ([Citation rules](#citation-rules)
-    rule 5). Present the final [Reply format](#reply-format) draft (citations
+    **commit**, **push**, verify SHAs on remote
+    ([commit-reply-citations.md](commit-reply-citations.md) rule 5). Present the
+    final [Reply format](#reply-format) draft (citations
     filled in). **Wait** for a second **confirm** before any forge post.
   - **Fix** (post-implement waiting): post the reply draft; **advance**.
 - **Revise**: new reply text, a question, or a change to the proposal. After
@@ -44,8 +45,9 @@ After the current Q/A or Fix thread:
    **revise**. Close with: Fix — `yes` to implement (not post yet); Q/A — `yes`
    to post; either — `skip`, or paste a revision.
 3. After **Fix** implement (commit pushed, SHAs verified): **wait** again for
-   **confirm**, **skip**, or **revise** on the reply draft. Close with: `yes` to
-   post the reply, `skip`, or paste a revision.
+   **confirm**, **skip**, or **revise** on the reply draft. On **confirm** to
+   post: run **citation lint**, show the final body in chat, then forge post.
+   Close with: `yes` to post the reply, `skip`, or paste a revision.
 
 ## Steps
 
@@ -183,25 +185,23 @@ Renamed the prop and updated the form consumer.
 One Fix thread may need several commits (e.g. separate packages per repo
 atomic-commit rules); cite all of them on that thread with this form.
 
-### Citation rules
-
-1. **SHA bare** — no backticks around the short SHA (forge auto-links it).
-2. **Title in backticks** — full commit subject, not only the scope /
-   package name.
-3. **Em dash** — ` — ` (space, em dash `—`, space) between SHA and title.
-4. **Bullets for 2+** — never stack bare SHA lines without list markers;
-   some forge UIs wrap them into one line.
-5. **GitLab — push before reply** — cited SHAs must be on the MR remote before
-   post (GitLab won't link local-only commits). **Fix** order: commit → push →
-   verify SHA on remote → user **confirm** → post.
+Full citation rules: [commit-reply-citations.md](commit-reply-citations.md).
 
 ## Forge — post the reply (send only)
 
 Under **send** only. Load `glab` / `gh` when present.
 
+1. **Citation lint** — checklist in [commit-reply-citations.md](commit-reply-citations.md); revise the draft until it passes.
+2. **Show body in chat** — print the exact text that will be posted (including when the user skips the second confirm: “commit & reply” in one message).
+3. **Post** — `glab` / `gh` only after steps 1–2.
+
+**Completion**: citation lint passed; reply body shown in chat; reply posted.
+
 ### GitLab (`glab`)
 
 List / ids: `glab mr note list` (or `-F json`). Reply:
+
+One commit:
 
 ```bash
 glab mr note create <iid> --reply <discussion-id-prefix> << 'EOF'
@@ -211,11 +211,24 @@ Agreed — path now matches the API base URL.
 EOF
 ```
 
+Two or more commits on the same thread — **bullet every citation line**:
+
+```bash
+glab mr note create <iid> --reply <discussion-id-prefix> << 'EOF'
+- a1b2c3d — `refactor(ui-button): rename label prop to caption (TICKET-42)`
+- e4f5a67 — `fix(ui-form): pass caption into Button (TICKET-42)`
+
+Renamed the prop and updated the form consumer.
+EOF
+```
+
 ### GitHub (`gh`)
 
 `gh pr comment` is top-level only — no thread `--reply`. Reply with the
 REST replies endpoint (parent = review comment id) or GraphQL
 `addPullRequestReviewThreadReply`:
+
+One commit:
 
 ```bash
 gh api -X POST repos/{owner}/{repo}/pulls/comments/{comment_id}/replies \
@@ -223,6 +236,19 @@ gh api -X POST repos/{owner}/{repo}/pulls/comments/{comment_id}/replies \
 a1b2c3d — `fix(auth): trim session cookie path (TICKET-42)`
 
 Agreed — path now matches the API base URL.
+EOF
+)"
+```
+
+Two or more commits — **bullet every citation line**:
+
+```bash
+gh api -X POST repos/{owner}/{repo}/pulls/comments/{comment_id}/replies \
+  -f body="$(cat <<'EOF'
+- a1b2c3d — `refactor(ui-button): rename label prop to caption (TICKET-42)`
+- e4f5a67 — `fix(ui-form): pass caption into Button (TICKET-42)`
+
+Renamed the prop and updated the form consumer.
 EOF
 )"
 ```
